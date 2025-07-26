@@ -3,14 +3,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@heroui/button";
 import { useSoundStore } from "@/store/sound";
 import { SoundSwitch } from "../sound-switch";
+import { Logo } from "./logo";
+import logoName from "/public/assets/logo-name.png"
+import { Image } from "@heroui/image";
 
 export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
   const [hasStarted, setHasStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { isPlaying, toggleSound } = useSoundStore();
+  const { isPlaying } = useSoundStore();
 
   const handleStart = () => {
-    // Toca áudio e inicia splash
     if (isPlaying) {
       audioRef.current = new Audio("/public/sounds/splash-audio-1.mp3");
       audioRef.current.volume = 0.1;
@@ -18,7 +20,6 @@ export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
     }
     setHasStarted(true);
 
-    // Oculta splash depois de 2.5s
     setTimeout(() => {
       audioRef.current?.pause();
       onFinish();
@@ -41,7 +42,7 @@ export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
         >
           Entrar
         </Button>
-        <SoundSwitch color="dark:text-white mt-4"/>
+        <SoundSwitch color="dark:text-white mt-4" />
       </div>
     );
   }
@@ -52,7 +53,7 @@ export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
         initial={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed inset-0 z-50 bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center"
+        className="flex flex-col items-center justify-center fixed inset-0 z-50  bg-white"
       >
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -60,11 +61,16 @@ export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-white text-center"
         >
-          <h1 className="text-5xl font-extrabold tracking-wider text-red-500">
-            MiniLigas
-            <span className="block mt-1">🎮</span>
-          </h1>
-          <p className="text-lg mt-2">Jogos Casuais Competitivos</p>
+          <Logo />
+        </motion.div>
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut",delay: 0.3 }}
+        >
+          <span className="font-bold text-[#D94690] text-7xl">R-</span>
+          <span className="font-bold text-[#F0CA44] text-7xl">P-</span>
+          <span className="font-bold text-[#5BC6E0] text-7xl">S</span>
         </motion.div>
       </motion.div>
     </AnimatePresence>
