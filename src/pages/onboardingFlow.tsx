@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Image } from "@heroui/image"
 import { useAuthStore } from '@/store/auth-store'
 import { useSoundStore } from '@/store/sound'
-
+import { useEffect } from 'react';
 
 const steps = [
   {
@@ -50,6 +50,15 @@ export default function OnboardingFlow() {
 
     }
   }
+
+   
+  useEffect(() => {
+    if (isPlaying && stepIndex > 0) {
+      const audio = new Audio("/sounds/swipe-audio-1.mp3");
+      audio.volume = 0.5;
+      audio.play();
+    }
+  }, [stepIndex, isPlaying]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 flex">
@@ -105,16 +114,11 @@ export default function OnboardingFlow() {
               {(stepIndex === 1 || stepIndex === 2) && (
                 <Button
                   onPress={() => {
+                    setStepIndex(stepIndex - 1);
                     if (isPlaying) {
                       const audio = new Audio("/sounds/swipe-audio-1.mp3");
                       audio.volume = 0.5;
-                      audio.play().then(() => {
-                        setStepIndex(stepIndex - 1);
-                      }).catch(() => {
-                        setStepIndex(stepIndex - 1);
-                      });
-                    } else {
-                      setStepIndex(stepIndex - 1);
+                      audio.play();
                     }
                   }}
                   className="bg-gray-200 text-gray-700 hover:bg-gray-300 text-lg font-semibold"
@@ -123,20 +127,7 @@ export default function OnboardingFlow() {
                 </Button>
               )}
               <Button
-                onPress={() => {
-                  console.log(isPlaying)
-                  if (isPlaying) {
-                    const audio = new Audio("/sounds/swipe-audio-1.mp3");
-                    audio.volume = 0.5;
-                    audio.play().then(() => {
-                      handleNext();
-                    }).catch(() => {
-                      handleNext();
-                    });
-                  } else {
-                    handleNext();
-                  }
-                }}
+                onPress={handleNext}
                 className="bg-[#FBC399] text-gray-700 hover:bg-orange-300 text-lg font-semibold"
               >
                 {stepIndex === steps.length - 1 ? "Iniciar" : "Próximo"}

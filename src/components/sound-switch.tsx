@@ -2,20 +2,23 @@ import { Button } from "@heroui/button";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 import { useSoundStore } from "@/store/sound";
-import { useRef } from "react";
+import { useEffect } from "react";
 
 export const SoundSwitch = ({ color }: soundSwitchStyleProps) => {
     const { isPlaying, toggleSound } = useSoundStore();
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        if (isPlaying) {
+            const audio = new Audio("/sounds/sound-switch-audio-1.mp3");
+            audio.volume = 0.5;
+            audio.play();
+        }
+    }, [isPlaying]);
 
     const handleButton = () => {
-        if (!isPlaying) {
-            audioRef.current = new Audio("/public/sounds/sound-switch-audio-1.mp3");
-            audioRef.current.volume = 0.5;
-            audioRef.current.play();
-        }
         toggleSound();
     };
+
 
     return (
         <Button
