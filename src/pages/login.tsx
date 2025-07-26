@@ -24,7 +24,7 @@ export const LoginPage = () => {
       return;
     }
 
-    navigate("/game");
+    navigate("/");
   };
 
   return (
@@ -62,12 +62,7 @@ export const LoginPage = () => {
             {isRegistering ? "Cadastrar" : "Entrar"}
           </Button>
 
-          <div className="text-sm text-center flex flex-col">
-            {
-              isRegistering ?
-              <span className="mb-2">Já tem conta?</span> :
-              <span className="mb-2">Não tem conta?</span>
-            }{" "}
+          <div className="flex flex-col">
             <Button
               variant="flat"
               size="lg"
