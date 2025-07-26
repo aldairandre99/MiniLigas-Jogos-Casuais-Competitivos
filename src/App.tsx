@@ -1,25 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-
 import IndexPage from "@/pages/index";
-import { useState } from "react";
-import { SplashScreen } from "./components/splash-screen";
 import { LoginPage } from "./pages/login";
 import { ProtectedRoute } from "./components/protectRoute";
+import OnboardingFlow from "./pages/onboardingFlow";
 
 function App() {
-
-  //const [splashDone, setSplashDone] = useState(false);
-
   return (
     <>
-      {/* {!splashDone ? (
-        <SplashScreen onFinish={() => setSplashDone(true)} />
-      ) : (
-        <Routes>
-          <Route path="/" element={<IndexPage />}/>
-        </Routes>
-      )}                          
-      )} */}
       <Routes>
         <Route path="/" element={<IndexPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -27,10 +14,11 @@ function App() {
           path="/game"
           element={
             <ProtectedRoute>
-                <p>Rota protegida</p> 
+              <p>Rota protegida</p>
             </ProtectedRoute>
           }
         />
+        <Route path="/onBoardRPS" element={<OnboardingFlow />} />
       </Routes>
     </>
   );

@@ -1,7 +1,4 @@
-import { Button } from "@heroui/button";
-import { Kbd } from "@heroui/kbd";
 import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
 import {
   Navbar as HeroUINavbar,
   NavbarBrand,
@@ -13,18 +10,17 @@ import {
 } from "@heroui/navbar";
 import { link as linkStyles } from "@heroui/theme";
 import clsx from "clsx";
-
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-} from "@/components/icons";
 import { SoundSwitch } from "@/components/sound-switch"
+import { UserIcon } from "./userIcon";
+import { Button } from "@heroui/button";
+import { useAuthStore } from "@/store/auth-store";
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
-
+  const logout = useAuthStore((e) => e.logout)
+  const navigate = useNavigate()
   return (
     <HeroUINavbar maxWidth="xl" position="sticky" className="">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -61,7 +57,8 @@ export const Navbar = () => {
       >
         <NavbarItem className="hidden sm:flex gap-2">
           <SoundSwitch color="text-default-500"/>
-          <ThemeSwitch />
+          <ThemeSwitch  className="mr-4"/>
+          <UserIcon />
         </NavbarItem>
       </NavbarContent>
 
@@ -73,23 +70,22 @@ export const Navbar = () => {
 
       <NavbarMenu>
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href={item.href}
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
+          <Button
+            color="primary"
+            onPress={()=> {
+              navigate("/login")
+            }} 
+          >
+            Login
+          </Button>
+          <Button
+            onPress={()=> {
+              logout()
+              
+            }} 
+          >
+            Logout
+          </Button>
         </div>
       </NavbarMenu>
     </HeroUINavbar>
