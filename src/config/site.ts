@@ -8,19 +8,15 @@ export const siteConfig = {
       label: "Home",
       href: "/",
     },
+    {
+      label: "Jogos",
+      href: "/jogos",
+    }
   ],
   navMenuItems: [
     {
       label: "Dashboard",
       href: "/dashboard",
-    },
-    {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
     },
     {
       label: "Logout",
