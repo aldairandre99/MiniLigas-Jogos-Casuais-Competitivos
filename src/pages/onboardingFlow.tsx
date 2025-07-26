@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@heroui/button'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -37,7 +37,6 @@ export default function OnboardingFlow() {
   const current = steps[stepIndex]
   const currentUser = useAuthStore((u) => u.currentUser)
   const isPlaying = useSoundStore((s) => s.isPlaying)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const handleNext = () => {
     if (stepIndex < steps.length - 1) {
