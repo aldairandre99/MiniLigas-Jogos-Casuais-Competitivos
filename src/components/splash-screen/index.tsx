@@ -4,9 +4,6 @@ import { Button } from "@heroui/button";
 import { useSoundStore } from "@/store/sound";
 import { SoundSwitch } from "../sound-switch";
 import { Logo } from "./logo";
-import logoName from "/public/assets/logo-name.png"
-import { Image } from "@heroui/image";
-
 export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
   const [hasStarted, setHasStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
