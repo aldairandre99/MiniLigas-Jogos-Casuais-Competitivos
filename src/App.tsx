@@ -7,6 +7,7 @@ import { LoginRPS } from "./pages/login-rps";
 import HomeRPS from "./pages/home-rps";
 import WaitingRPS from "./pages/waiting-rps";
 import { SplashScreenRPS } from "./pages/splash-screen-rps";
+import FightRPS from "./pages/fight";
 
 function App() {
   return (
@@ -37,6 +38,11 @@ function App() {
         <Route path="/splash-screen-rps" element={
           <ProtectedRoute>
             <SplashScreenRPS />
+          </ProtectedRoute> 
+        } />
+        <Route path="/fight-rps" element={
+          <ProtectedRoute>
+            <FightRPS />
           </ProtectedRoute> 
         } />
 

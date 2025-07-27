@@ -14,16 +14,16 @@ export default function WaitingRPS() {
     useEffect(() => {
         if (isPlaying) {
             audioRef.current = new Audio("/sounds/waiting-rps-audio-1.mp3")
-            audioRef.current.volume = 0.5
+            audioRef.current.volume = 0.3
             audioRef.current.play()
         }
         const timer = setTimeout(() => {
-             if (isPlaying && audioRef.current) audioRef.current.pause();
-            navigate("/");
+            if (isPlaying && audioRef.current) audioRef.current.pause();
+            navigate("/fight-rps");
         }, 5000);
 
         return () => clearTimeout(timer);
-    }, [isPlaying,navigate]);
+    }, [isPlaying, navigate]);
 
     return (
         <>
