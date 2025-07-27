@@ -3,11 +3,12 @@ import { FacebookSvg } from "@/components/svg/facebook";
 import { GoogleSvg } from "@/components/svg/google";
 import { Button } from "@heroui/button";
 import { Image } from "@heroui/image";
+import { Link } from "@heroui/link";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 
-export const LoginScreen = () => {
+export const SignUpScreen = () => {
   const navigate = useNavigate()
   return (
     <div
@@ -85,9 +86,13 @@ export const LoginScreen = () => {
         transition={{ duration: 0.5, ease: "easeInOut", delay: 1.6 }}
         className="mt-8 text-gray-600">
         Don't have an account?{' '}
-        <a href="#" className="text-orange-400 hover:underline font-semibold" style={{ color: '#FFAB70' }}>
+        <Link 
+          href="/login" 
+          className="text-orange-400 hover:underline font-semibold" 
+          style={{ color: '#FFAB70' }}
+        >
           Sign Up
-        </a>
+        </Link>
       </motion.div>
     </div>
   );

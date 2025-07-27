@@ -1,10 +1,10 @@
-import { LoginScreen } from "@/features/rock-paper-scissors/components/login"
+import { SignUpScreen } from "@/features/rock-paper-scissors/components/signup"
 
 
 export const LoginRPS = () => {
    return(
     <>
-       <LoginScreen /> 
+       <SignUpScreen /> 
     </>
    ) 
 
