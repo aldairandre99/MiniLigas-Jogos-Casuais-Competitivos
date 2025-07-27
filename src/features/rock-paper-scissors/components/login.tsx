@@ -4,9 +4,11 @@ import { GoogleSvg } from "@/components/svg/google";
 import { Button } from "@heroui/button";
 import { Image } from "@heroui/image";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 
 export const LoginScreen = () => {
+  const navigate = useNavigate()
   return (
     <div
 
@@ -69,6 +71,7 @@ export const LoginScreen = () => {
         className="w-full max-w-sm"
       >
         <Button
+          onPress={() => navigate("/login")}
           className="w-full  bg-orange-30 hover:bg-orange-400 text-white font-semibold rounded-full shadow-md transition duration-300 ease-in-out"
           style={{ background: 'linear-gradient(to right, #FFC19D, #FFAB70)' }}>
           Sign in with Password

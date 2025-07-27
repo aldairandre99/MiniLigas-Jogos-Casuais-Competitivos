@@ -4,6 +4,8 @@ import { LoginPage } from "./pages/login";
 import { ProtectedRoute } from "./features/auth/protectRoute";
 import OnboardingFlow from "./pages/onboardingFlow";
 import { LoginRPS } from "./pages/login-rps";
+import HomeRPS from "./pages/home-rps";
+import WaitingRPS from "./pages/waiting-rps";
 
 function App() {
   return (
@@ -19,8 +21,11 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/onBoardRPS" element={<OnboardingFlow />} />
+        <Route path="/onboarding" element={<OnboardingFlow />} />
         <Route path="/signup-rps" element={<LoginRPS />} />
+        <Route path="/home-rps" element={<HomeRPS />} />
+        <Route path="/waiting-rps" element={<WaitingRPS />} />
+
       </Routes>
     </>
   );
