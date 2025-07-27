@@ -3,6 +3,7 @@ import IndexPage from "@/pages/index";
 import { LoginPage } from "./pages/login";
 import { ProtectedRoute } from "./features/auth/protectRoute";
 import OnboardingFlow from "./pages/onboardingFlow";
+import { LoginRPS } from "./pages/login-rps";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           }
         />
         <Route path="/onBoardRPS" element={<OnboardingFlow />} />
+        <Route path="/signup-rps" element={<LoginRPS />} />
       </Routes>
     </>
   );
