@@ -24,7 +24,7 @@ export const SplashScreen = () => {
     if (currentUser) {
       setTimeout(() => {
         audioRef.current?.pause();
-        navigate("/home-rps")
+        navigate("/onboarding");
       }, 2500);
     } else {
       setTimeout(() => {

@@ -43,7 +43,7 @@ export default function OnboardingFlow() {
       setStepIndex((prev) => prev + 1)
     } else {
       if (currentUser) {
-        navigate('/game')
+        navigate('/waiting-rps')
       } else {
         navigate("/login")
       }
