@@ -4,12 +4,15 @@ import { Button } from "@heroui/button";
 import { useSoundStore } from "@/store/sound";
 import { SoundSwitch } from "@/components/sound-switch";
 import { Logo } from "./logo";
+import { useAuthStore } from "@/store/auth-store";
+import { useNavigate } from "react-router-dom";
 
-export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
+export const SplashScreen = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { isPlaying } = useSoundStore();
-
+  const currentUser = useAuthStore((u) => u.currentUser)
+  const navigate = useNavigate()
   const handleStart = () => {
     if (isPlaying) {
       audioRef.current = new Audio("/public/sounds/splash-audio-1.mp3");
@@ -18,10 +21,19 @@ export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
     }
     setHasStarted(true);
 
-    setTimeout(() => {
-      audioRef.current?.pause();
-      onFinish();
-    }, 2500);
+    if (currentUser) {
+      setTimeout(() => {
+        audioRef.current?.pause();
+        navigate("/home-rps")
+      }, 2500);
+    } else {
+      setTimeout(() => {
+        audioRef.current?.pause();
+        navigate("/signup-rps")
+      }, 2500);
+    }
+
+
   };
 
   if (!hasStarted) {
@@ -64,7 +76,7 @@ export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut",delay: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
         >
           <span className="font-bold text-[#D94690] text-7xl">R-</span>
           <span className="font-bold text-[#F0CA44] text-7xl">P-</span>
