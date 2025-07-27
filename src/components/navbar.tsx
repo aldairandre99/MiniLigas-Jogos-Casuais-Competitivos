@@ -6,7 +6,6 @@ import {
   NavbarItem,
   NavbarMenuToggle,
   NavbarMenu,
-  NavbarMenuItem,
 } from "@heroui/navbar";
 import { link as linkStyles } from "@heroui/theme";
 import clsx from "clsx";
@@ -21,9 +20,10 @@ import { useState } from "react";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const currentUser = useAuthStore(u => u.currentUser)
   const logout = useAuthStore((e) => e.logout)
   const navigate = useNavigate()
+
   return (
     <HeroUINavbar maxWidth="xl" position="sticky" className="" isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -81,26 +81,31 @@ export const Navbar = () => {
             color="foreground"
             href="/splash-screen-rps"
           >
-            Rock Paper Scissors Game
+            <span className="text-md font-semibold">Rock Paper Scissors Game</span>
           </Link>
         </NavbarItem>
         <NavbarItem className="my-2 flex flex-col gap-2">
-          <Button
-            color="primary"
-            onPress={() => {
-              navigate("/login")
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            onPress={() => {
-              setIsMenuOpen(!isMenuOpen)
-              logout()
-            }}
-          >
-            Logout
-          </Button>
+          {
+            currentUser ? (
+              <Button
+                onPress={() => {
+                  setIsMenuOpen(!isMenuOpen)
+                  logout()
+                  navigate("/")
+                }}
+              >
+                Logout
+              </Button>) : (
+              <Button
+                color="primary"
+                onPress={() => {
+                  setIsMenuOpen(!isMenuOpen)
+                  navigate("/login")
+                }}
+              >
+                Login
+              </Button>)
+          }
         </NavbarItem>
       </NavbarMenu>
     </HeroUINavbar>

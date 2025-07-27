@@ -24,9 +24,21 @@ function App() {
         />
         <Route path="/onboarding" element={<OnboardingFlow />} />
         <Route path="/signup-rps" element={<LoginRPS />} />
-        <Route path="/home-rps" element={<HomeRPS />} />
-        <Route path="/waiting-rps" element={<WaitingRPS />} />
-        <Route path="/splash-screen-rps" element={<SplashScreenRPS />} />
+        <Route path="/home-rps" element={
+          <ProtectedRoute>
+            <HomeRPS />
+          </ProtectedRoute>
+        } />
+        <Route path="/waiting-rps" element={
+          <ProtectedRoute>
+            <WaitingRPS />
+          </ProtectedRoute>
+        } />
+        <Route path="/splash-screen-rps" element={
+          <ProtectedRoute>
+            <SplashScreenRPS />
+          </ProtectedRoute> 
+        } />
 
       </Routes>
     </>
