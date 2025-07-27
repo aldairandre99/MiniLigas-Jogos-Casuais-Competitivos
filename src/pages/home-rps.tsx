@@ -85,6 +85,7 @@ export default function HomeRPS() {
                                     audio.volume = 0.1;
                                     audio.play();
                                 }
+                                 navigate("/waiting-rps")
                             }}
                         >
                             <PlayIcon className="size-10"
@@ -98,6 +99,7 @@ export default function HomeRPS() {
                                     audio.volume = 1;
                                     audio.play();
                                 }
+                                navigate("/")
                             }}
                         >
                             <HomeIcon className="size-10"
