@@ -17,12 +17,15 @@ import { UserIcon } from "./userIcon";
 import { Button } from "@heroui/button";
 import { useAuthStore } from "@/store/auth-store";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const logout = useAuthStore((e) => e.logout)
   const navigate = useNavigate()
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky" className="">
+    <HeroUINavbar maxWidth="xl" position="sticky" className="" isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
           <Link
@@ -56,37 +59,49 @@ export const Navbar = () => {
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
-          <SoundSwitch color="text-default-500"/>
-          <ThemeSwitch  className="mr-4"/>
+          <SoundSwitch color="text-default-500" />
+          <ThemeSwitch className="mr-4" />
           <UserIcon />
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <SoundSwitch color="text-default-500"/>
+        <SoundSwitch color="text-default-500" />
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
 
-      <NavbarMenu>
-        <div className="mx-4 mt-2 flex flex-col gap-2">
+      <NavbarMenu className="flex justify-between">
+        <NavbarItem>
+          <Link
+            className={clsx(
+              linkStyles({ color: "foreground" }),
+              "data-[active=true]:text-primary data-[active=true]:font-medium",
+            )}
+            color="foreground"
+            href="/splash-screen-rps"
+          >
+            Rock Paper Scissors Game
+          </Link>
+        </NavbarItem>
+        <NavbarItem className="my-2 flex flex-col gap-2">
           <Button
             color="primary"
-            onPress={()=> {
+            onPress={() => {
               navigate("/login")
-            }} 
+            }}
           >
             Login
           </Button>
           <Button
-            onPress={()=> {
+            onPress={() => {
+              setIsMenuOpen(!isMenuOpen)
               logout()
-              
-            }} 
+            }}
           >
             Logout
           </Button>
-        </div>
+        </NavbarItem>
       </NavbarMenu>
     </HeroUINavbar>
   );

@@ -2,8 +2,9 @@ import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@heroui/button";
 import { useSoundStore } from "@/store/sound";
-import { SoundSwitch } from "../sound-switch";
+import { SoundSwitch } from "@/components/sound-switch";
 import { Logo } from "./logo";
+
 export const SplashScreen = ({ onFinish }: { onFinish: () => void }) => {
   const [hasStarted, setHasStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);

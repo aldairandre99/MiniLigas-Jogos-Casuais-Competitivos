@@ -6,6 +6,7 @@ import OnboardingFlow from "./pages/onboardingFlow";
 import { LoginRPS } from "./pages/login-rps";
 import HomeRPS from "./pages/home-rps";
 import WaitingRPS from "./pages/waiting-rps";
+import { SplashScreenRPS } from "./pages/splash-screen-rps";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/signup-rps" element={<LoginRPS />} />
         <Route path="/home-rps" element={<HomeRPS />} />
         <Route path="/waiting-rps" element={<WaitingRPS />} />
+        <Route path="/splash-screen-rps" element={<SplashScreenRPS />} />
 
       </Routes>
     </>
