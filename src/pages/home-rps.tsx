@@ -76,7 +76,7 @@ export default function HomeRPS() {
 
 
                 </main>
-                <div className="w-full h-[100px]  flex items-center justify-center px-6">
+                <div className="container w-full h-[100px] max-w-sm m-auto flex items-center justify-center px-6">
                     <ul className="w-full flex justify-between ">
                         <li
                             onClick={() => {
