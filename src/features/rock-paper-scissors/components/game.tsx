@@ -1,9 +1,10 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@heroui/button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FemaleSvg } from "@/features/rock-paper-scissors/components/FemaleSvg";
 import { MaleHandSvg } from "@/features/rock-paper-scissors/components/MaleHandSvg";
+import { useSoundStore } from "@/store/sound";
 
 interface Choice {
     name: 'Rock' | 'Paper' | 'Scissor';
@@ -20,6 +21,8 @@ export const Game = () => {
         { name: 'Paper', icon: '✋' },
         { name: 'Scissor', icon: '✌️' },
     ];
+    const isPlaying = useSoundStore((e) => e.isPlaying)
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     const handleChoice = (choice: Choice['name']) => {
         if (round <= 3) {
@@ -37,11 +40,6 @@ export const Game = () => {
         }
     };
 
-    const getHandIcon = (choice: Choice['name'] | null): JSX.Element | null => {
-        const selectedChoice = choices.find(c => c.name === choice);
-        return selectedChoice ? <span className="text-white text-4xl">{selectedChoice.icon}</span> : null;
-    };
-
     const determineWinner = () => {
         if (!playerChoice || !opponentChoice) return null;
         if (playerChoice === opponentChoice) return "Draw!";
@@ -55,6 +53,8 @@ export const Game = () => {
 
     const winner = determineWinner();
 
+    
+
     return (
         <div className="bg-[#4847C4] h-screen flex flex-col items-center justify-between text-white relative px-4">
             <div className="flex items-center justify-between w-full">
@@ -65,6 +65,7 @@ export const Game = () => {
                         <ChevronLeftIcon className="size-10 text-white" />
                     }
                     onPress={() => {
+                        audioRef.current?.pause()
                         navigate("/home-rps")
                     }}
                 />
@@ -118,13 +119,13 @@ export const Game = () => {
                 <div></div>
             </div>
             <div
-                id="female-hands" 
+                id="female-hands"
                 className="fixed top-0">
                 <FemaleSvg choice={opponentChoice} />
             </div>
             <div
-            id="female-hands" 
-            className="fixed bottom-0   ">
+                id="female-hands"
+                className="fixed bottom-0   ">
                 <MaleHandSvg choice={playerChoice} />
             </div>
             {round > 3 && (
