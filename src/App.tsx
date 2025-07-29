@@ -8,10 +8,19 @@ import HomeRPS from "./pages/home-rps";
 import WaitingRPS from "./pages/waiting-rps";
 import { SplashScreenRPS } from "./pages/splash-screen-rps";
 import FightRPS from "./pages/fight";
-
 import IndexPage from "@/pages/index";
+import { dummyUsers, useAuthStore, User } from "./store/auth-store";
+import { useEffect } from "react";
 
 function App() {
+  const users = useAuthStore((state) => state.users);
+  const setUsers = useAuthStore((state) => state.setUsers);
+
+  useEffect(() => {
+    if (users.length === 0) {
+      setUsers(dummyUsers);
+    }
+  }, [users.length, setUsers]);
   return (
     <>
       <Routes>

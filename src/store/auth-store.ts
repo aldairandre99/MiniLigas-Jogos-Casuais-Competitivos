@@ -1,16 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface User {
+export interface User {
   username: string;
   password: string;
   victories: number;
   defeats: number;
-  type: "user" | "admin";
+  type: "user" | "admin" | "bot";
 }
 
 interface AuthState {
-  isHydrated: boolean;
   users: User[];
   currentUser: User | null;
   login: (username: string, password: string) => boolean;
@@ -18,9 +17,10 @@ interface AuthState {
   logout: () => void;
   incrementVictory: () => void;
   incrementDefeat: () => void;
+  setUsers: (users: User[]) => void;
 }
 
-const dummyUsers: User[] = [
+export const dummyUsers: User[] = [
   { username: "bot_1", password: "123", victories: 25, defeats: 6, type: "user" },
   { username: "bot_2", password: "123", victories: 40, defeats: 10, type: "user" },
   { username: "bot_3", password: "123", victories: 30, defeats: 12, type: "user" },
@@ -32,12 +32,13 @@ const dummyUsers: User[] = [
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
-      isHydrated: false,
       users: [],
       currentUser: null,
 
+      setUsers: (users) => set({ users }),
+
       login: (username, password) => {
-        const user = get().users.find(u => u.username === username && u.password === password);
+        const user = get().users.find((u) => u.username === username && u.password === password);
         if (user) {
           set({ currentUser: user });
           return true;
@@ -46,7 +47,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       register: (username, password) => {
-        const exists = get().users.some(u => u.username === username);
+        const exists = get().users.some((u) => u.username === username);
         if (exists) return false;
 
         const newUser: User = {
@@ -93,18 +94,6 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-storage",
-      onRehydrateStorage: () => (state) => {
-        if (state) {
-          const missingBots = dummyUsers.filter(
-            (bot) => !state.users.some((u) => u.username === bot.username)
-          );
-          if (missingBots.length > 0) {
-            state.users = [...state.users, ...missingBots];
-          }
-
-          state.isHydrated = true;
-        }
-      },
     }
   )
 );
