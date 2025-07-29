@@ -6,7 +6,6 @@ import { Button } from "@heroui/button";
 import { useNavigate } from "react-router-dom";
 import { Form } from "@heroui/form";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { useAuthStore } from "@/store/auth-store";
 
 interface Props {
   onSwitch: () => void;
@@ -16,15 +15,9 @@ interface Props {
 export const RegisterForm = ({ onSwitch, onClose }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const register = useAuthStore((s) => s.register);
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    const success = register(username, password);
-    /* if (!success) return alert("Usuário já existe"); */
-
-    const user = useAuthStore.getState().currentUser;
-
     navigate("/");
   };
 
