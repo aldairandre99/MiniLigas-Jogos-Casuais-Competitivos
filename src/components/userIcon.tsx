@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/store/auth-store"
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/dropdown"
 import { User } from "@heroui/user"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const UserIcon = () => {
     const currentUser = useAuthStore((u) => u.currentUser)
@@ -24,7 +24,7 @@ export const UserIcon = () => {
                     as="button"
                     avatarProps={{
                         isBordered: true,
-                        src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                        src: currentUser?.type === "admin" ? "/assets/adminPhoto.png" : "/assets/userPhoto.png"
                     }}
                     className="transition-transform"
                     description={`${currentUser?.username || "Guest"}`}
@@ -36,6 +36,28 @@ export const UserIcon = () => {
                     <p className="font-bold">Signed in as</p>
                     <p className="font-bold">{`@${currentUser?.username || "Guest"}`}</p>
                 </DropdownItem>
+                {
+                    currentUser ? (
+                        <DropdownItem
+                            key="home"
+                        >
+                            <Link to="/"> Home</Link>
+                        </DropdownItem>
+                    ) : <></>
+                }
+                {
+                    currentUser?.type === "admin" ? (
+                        <DropdownItem
+                            key="dasboard"
+                        >
+                            <Link
+                                to="/dashboard"
+                            >
+                                Dashboard
+                            </Link>
+                        </DropdownItem>
+                    ) : <></>
+                }
                 {
                     currentUser ? (<DropdownItem
                         onPress={handleLogout}

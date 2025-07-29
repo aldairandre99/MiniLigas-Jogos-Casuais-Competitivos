@@ -1,13 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-
 interface User {
   username: string;
   password: string;
   victories: number;
   defeats: number;
-  type: "admin" | "user";
+  type: "user" | "admin";
 }
 
 interface AuthState {
@@ -20,79 +19,106 @@ interface AuthState {
   incrementDefeat: () => void;
 }
 
+const dummyUsers: User[] = [
+  { username: "bot_1", password: "123", victories: 25, defeats: 6, type: "user" },
+  { username: "bot_2", password: "123", victories: 40, defeats: 10, type: "user" },
+  { username: "bot_3", password: "123", victories: 30, defeats: 12, type: "user" },
+  { username: "bot_4", password: "123", victories: 35, defeats: 10, type: "user" },
+  { username: "bot_5", password: "123", victories: 27, defeats: 5, type: "user" },
+  { username: "admin", password: "123", victories: 0, defeats: 0, type: "admin" }
+];
+
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
-      users: [],
-      currentUser: null,
+    (set, get) => {
+      const localStorageData = localStorage.getItem("auth-storage");
+      let initialUsers: User[] = [];
 
-      login: (username, password) => {
-        const user = get().users.find(
-          (u) => u.username === username && u.password === password
-        );
-        if (user) {
-          set({ currentUser: user });
-          return true;
-        }
-        return false;
-      },
-
-      register: (username, password) => {
-        const exists = get().users.some((u) => u.username === username);
-        if (exists) return false;
-
-        const newUser: User = {
-          username,
-          password,
-          victories: 0,
-          defeats: 0,
-          type: "user"
-        };
-
-        set((state) => ({
-          users: [...state.users, newUser],
-          currentUser: newUser,
-        }));
-        return true;
-      },
-
-      logout: () => set({ currentUser: null }),
-
-      incrementVictory: () => {
-        const user = get().currentUser;
-        if (!user) return;
-
-        const updatedUsers = get().users.map((u) =>
-          u.username === user.username
-            ? { ...u, victories: u.victories + 1 }
-            : u
-        );
-
-        const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
-
-        set({
-          users: updatedUsers,
-          currentUser: updatedUser,
-        });
-      },
-      incrementDefeat: () => {
-        const user = get().currentUser;
-        if (!user) return;
-
-        const updatedUsers = get().users.map((u) =>
-          u.username === user.username
-            ? { ...u, defeats: u.defeats + 1 }
-            : u
-        );
-
-        const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
-
-        set({
-          users: updatedUsers,
-          currentUser: updatedUser,
-        });
+      if (localStorageData) {
+        const parsed = JSON.parse(localStorageData);
+        initialUsers = parsed.state?.users ?? [];
       }
-    }),
+
+      const botsToAdd = dummyUsers.filter(
+        (bot) => !initialUsers.some((u) => u.username === bot.username)
+      );
+
+      const mergedUsers = [...initialUsers, ...botsToAdd];
+
+      return {
+        users: mergedUsers,
+        currentUser: null,
+
+        login: (username, password) => {
+          const user = get().users.find(
+            (u) => u.username === username && u.password === password
+          );
+          if (user) {
+            set({ currentUser: user });
+            return true;
+          }
+          return false;
+        },
+
+        register: (username, password) => {
+          const exists = get().users.some((u) => u.username === username);
+          if (exists) return false;
+
+          const newUser: User = {
+            username,
+            password,
+            victories: 0,
+            defeats: 0,
+            type: "user",
+          };
+
+          set((state) => ({
+            users: [...state.users, newUser],
+            currentUser: newUser,
+          }));
+
+          return true;
+        },
+
+        logout: () => set({ currentUser: null }),
+
+        incrementVictory: () => {
+          const user = get().currentUser;
+          if (!user) return;
+
+          const updatedUsers = get().users.map((u) =>
+            u.username === user.username
+              ? { ...u, victories: u.victories + 1 }
+              : u
+          );
+
+          const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
+
+          set({
+            users: updatedUsers,
+            currentUser: updatedUser,
+          });
+        },
+
+        incrementDefeat: () => {
+          const user = get().currentUser;
+          if (!user) return;
+
+          const updatedUsers = get().users.map((u) =>
+            u.username === user.username
+              ? { ...u, defeats: u.defeats + 1 }
+              : u
+          );
+
+          const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
+
+          set({
+            users: updatedUsers,
+            currentUser: updatedUser,
+          });
+        },
+      };
+    },
     {
       name: "auth-storage",
     }
