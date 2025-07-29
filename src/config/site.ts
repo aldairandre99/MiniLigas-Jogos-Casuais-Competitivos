@@ -12,7 +12,6 @@ export const siteConfig = {
       label: "Jogos",
       href: "/jogos",
     },
-    
   ],
   navMenuItems: [
     {

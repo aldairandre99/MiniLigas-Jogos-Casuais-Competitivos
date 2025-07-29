@@ -9,22 +9,30 @@ import {
 } from "@heroui/navbar";
 import { link as linkStyles } from "@heroui/theme";
 import clsx from "clsx";
-import { ThemeSwitch } from "@/components/theme-switch";
-import { SoundSwitch } from "@/components/sound-switch"
-import { UserIcon } from "./userIcon";
 import { Button } from "@heroui/button";
-import { useAuthStore } from "@/store/auth-store";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+import { UserIcon } from "./userIcon";
+
+import { ThemeSwitch } from "@/components/theme-switch";
+import { SoundSwitch } from "@/components/sound-switch";
+import { useAuthStore } from "@/store/auth-store";
+
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const currentUser = useAuthStore(u => u.currentUser)
-  const logout = useAuthStore((e) => e.logout)
-  const navigate = useNavigate()
+  const currentUser = useAuthStore((u) => u.currentUser);
+  const logout = useAuthStore((e) => e.logout);
+  const navigate = useNavigate();
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky" className="" isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+    <HeroUINavbar
+      className=""
+      isMenuOpen={isMenuOpen}
+      maxWidth="xl"
+      position="sticky"
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
           <Link
@@ -60,58 +68,60 @@ export const Navbar = () => {
             className={clsx(
               linkStyles({ color: "foreground" }),
               "data-[active=true]:text-primary data-[active=true]:font-medium",
-              "flex justify-between items-center"
+              "flex justify-between items-center",
             )}
             color="foreground"
             href="/splash-screen-rps"
             onPress={() => {
-              navigate("/splash-screen-rps")
-            }}  
+              navigate("/splash-screen-rps");
+            }}
           >
-
-            <span className="text-md font-semibold text-xl py-4">Rock Paper Scissors Game</span>
+            <span className="text-md font-semibold text-xl py-4">
+              Rock Paper Scissors Game
+            </span>
           </Link>
-          {
-            currentUser?.type === "admin" ? <Link
+          {currentUser?.type === "admin" ? (
+            <Link
               className={clsx(
                 linkStyles({ color: "foreground" }),
                 "data-[active=true]:text-primary data-[active=true]:font-medium",
-                "flex justify-between items-center"
+                "flex justify-between items-center",
               )}
               color="foreground"
               onPress={() => {
-              navigate("/dasboard")
-            }} 
+                navigate("/dasboard");
+              }}
             >
-
-              <span className="text-md font-semibold text-xl py-4">Dasboard</span>
-
-
-            </Link> : ""
-          }
+              <span className="text-md font-semibold text-xl py-4">
+                Dasboard
+              </span>
+            </Link>
+          ) : (
+            ""
+          )}
         </NavbarItem>
         <NavbarItem className="my-2 flex flex-col gap-2">
-          {
-            currentUser ? (
-              <Button
-                onPress={() => {
-                  setIsMenuOpen(!isMenuOpen)
-                  logout()
-                  navigate("/")
-                }}
-              >
-                Logout
-              </Button>) : (
-              <Button
-                color="primary"
-                onPress={() => {
-                  setIsMenuOpen(!isMenuOpen)
-                  navigate("/login")
-                }}
-              >
-                Login
-              </Button>)
-          }
+          {currentUser ? (
+            <Button
+              onPress={() => {
+                setIsMenuOpen(!isMenuOpen);
+                logout();
+                navigate("/");
+              }}
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              onPress={() => {
+                setIsMenuOpen(!isMenuOpen);
+                navigate("/login");
+              }}
+            >
+              Login
+            </Button>
+          )}
         </NavbarItem>
       </NavbarMenu>
     </HeroUINavbar>

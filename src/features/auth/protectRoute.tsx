@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+
 import { useAuthStore } from "@/store/auth-store";
 
 interface ProtectedRouteProps {
@@ -6,13 +7,16 @@ interface ProtectedRouteProps {
   allowedTypes?: ("admin" | "user")[]; // default: qualquer usuário logado
 }
 
-export const ProtectedRoute = ({ children, allowedTypes }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({
+  children,
+  allowedTypes,
+}: ProtectedRouteProps) => {
   const currentUser = useAuthStore((s) => s.currentUser);
 
-  if (!currentUser) return <Navigate to="/login" replace />;
+  if (!currentUser) return <Navigate replace to="/login" />;
 
   if (allowedTypes && !allowedTypes.includes(currentUser.type)) {
-    return <Navigate to="/unauthorized" replace />; // ou /login, ou página de erro
+    return <Navigate replace to="/unauthorized" />; // ou /login, ou página de erro
   }
 
   return <>{children}</>;

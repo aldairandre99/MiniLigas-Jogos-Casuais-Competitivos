@@ -1,18 +1,20 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@heroui/button";
+import { useNavigate } from "react-router-dom";
+
+import { Logo } from "./logo";
+
 import { useSoundStore } from "@/store/sound";
 import { SoundSwitch } from "@/components/sound-switch";
-import { Logo } from "./logo";
 import { useAuthStore } from "@/store/auth-store";
-import { useNavigate } from "react-router-dom";
 
 export const SplashScreen = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { isPlaying } = useSoundStore();
-  const currentUser = useAuthStore((u) => u.currentUser)
-  const navigate = useNavigate()
+  const currentUser = useAuthStore((u) => u.currentUser);
+  const navigate = useNavigate();
   const handleStart = () => {
     if (isPlaying) {
       audioRef.current = new Audio("/public/sounds/splash-audio-1.mp3");
@@ -29,26 +31,22 @@ export const SplashScreen = () => {
     } else {
       setTimeout(() => {
         audioRef.current?.pause();
-        navigate("/signup-rps")
+        navigate("/signup-rps");
       }, 2500);
     }
-
-
   };
 
   if (!hasStarted) {
     return (
       <div className="fixed inset-0 z-50 flex flex-col items-center justify-center dark:text-white">
         <div className="flex flex-col">
-          <h1 className="text-4xl font-bold mb-4">
-            MiniLigas
-          </h1>
+          <h1 className="text-4xl font-bold mb-4">MiniLigas</h1>
           <span className="text-5xl text-blue-500 text-center mb-4">🎮</span>
         </div>
         <Button
+          className="dark:bg-white text-indigo-700 rounded-md font-semibold shadow-md hover:bg-gray-200"
           size="lg"
           onPress={handleStart}
-          className="dark:bg-white text-indigo-700 rounded-md font-semibold shadow-md hover:bg-gray-200"
         >
           Entrar
         </Button>
@@ -60,22 +58,22 @@ export const SplashScreen = () => {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
         className="flex flex-col items-center justify-center fixed inset-0 z-50  bg-white"
+        exit={{ opacity: 0 }}
+        initial={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
       >
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-white text-center"
+          initial={{ scale: 0.8, opacity: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <Logo />
         </motion.div>
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
+          initial={{ scale: 0.8, opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
         >
           <span className="font-bold text-[#D94690] text-7xl">R-</span>

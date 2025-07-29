@@ -10,7 +10,7 @@ export default function IndexPage() {
         <div className="font-semibold">
           <p>RANKING</p>
           <p>MELHORES JOGADORES</p>
-          <RankingUsers/> 
+          <RankingUsers />
         </div>
       </section>
     </DefaultLayout>

@@ -20,12 +20,48 @@ interface AuthState {
 }
 
 const dummyUsers: User[] = [
-  { username: "bot_1", password: "123", victories: 25, defeats: 6, type: "user" },
-  { username: "bot_2", password: "123", victories: 40, defeats: 10, type: "user" },
-  { username: "bot_3", password: "123", victories: 30, defeats: 12, type: "user" },
-  { username: "bot_4", password: "123", victories: 35, defeats: 10, type: "user" },
-  { username: "bot_5", password: "123", victories: 27, defeats: 5, type: "user" },
-  { username: "admin", password: "123", victories: 0, defeats: 0, type: "admin" }
+  {
+    username: "bot_1",
+    password: "123",
+    victories: 25,
+    defeats: 6,
+    type: "user",
+  },
+  {
+    username: "bot_2",
+    password: "123",
+    victories: 40,
+    defeats: 10,
+    type: "user",
+  },
+  {
+    username: "bot_3",
+    password: "123",
+    victories: 30,
+    defeats: 12,
+    type: "user",
+  },
+  {
+    username: "bot_4",
+    password: "123",
+    victories: 35,
+    defeats: 10,
+    type: "user",
+  },
+  {
+    username: "bot_5",
+    password: "123",
+    victories: 27,
+    defeats: 5,
+    type: "user",
+  },
+  {
+    username: "admin",
+    password: "123",
+    victories: 0,
+    defeats: 0,
+    type: "admin",
+  },
 ];
 
 export const useAuthStore = create<AuthState>()(
@@ -36,11 +72,12 @@ export const useAuthStore = create<AuthState>()(
 
       if (localStorageData) {
         const parsed = JSON.parse(localStorageData);
+
         initialUsers = parsed.state?.users ?? [];
       }
 
       const botsToAdd = dummyUsers.filter(
-        (bot) => !initialUsers.some((u) => u.username === bot.username)
+        (bot) => !initialUsers.some((u) => u.username === bot.username),
       );
 
       const mergedUsers = [...initialUsers, ...botsToAdd];
@@ -51,17 +88,21 @@ export const useAuthStore = create<AuthState>()(
 
         login: (username, password) => {
           const user = get().users.find(
-            (u) => u.username === username && u.password === password
+            (u) => u.username === username && u.password === password,
           );
+
           if (user) {
             set({ currentUser: user });
+
             return true;
           }
+
           return false;
         },
 
         register: (username, password) => {
           const exists = get().users.some((u) => u.username === username);
+
           if (exists) return false;
 
           const newUser: User = {
@@ -84,15 +125,18 @@ export const useAuthStore = create<AuthState>()(
 
         incrementVictory: () => {
           const user = get().currentUser;
+
           if (!user) return;
 
           const updatedUsers = get().users.map((u) =>
             u.username === user.username
               ? { ...u, victories: u.victories + 1 }
-              : u
+              : u,
           );
 
-          const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
+          const updatedUser = updatedUsers.find(
+            (u) => u.username === user.username,
+          )!;
 
           set({
             users: updatedUsers,
@@ -102,15 +146,16 @@ export const useAuthStore = create<AuthState>()(
 
         incrementDefeat: () => {
           const user = get().currentUser;
+
           if (!user) return;
 
           const updatedUsers = get().users.map((u) =>
-            u.username === user.username
-              ? { ...u, defeats: u.defeats + 1 }
-              : u
+            u.username === user.username ? { ...u, defeats: u.defeats + 1 } : u,
           );
 
-          const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
+          const updatedUser = updatedUsers.find(
+            (u) => u.username === user.username,
+          )!;
 
           set({
             users: updatedUsers,
@@ -121,6 +166,6 @@ export const useAuthStore = create<AuthState>()(
     },
     {
       name: "auth-storage",
-    }
-  )
+    },
+  ),
 );

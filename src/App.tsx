@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import IndexPage from "@/pages/index";
+
 import { LoginPage } from "./pages/login";
 import { ProtectedRoute } from "./features/auth/protectRoute";
 import OnboardingFlow from "./pages/onboardingFlow";
@@ -9,43 +9,56 @@ import WaitingRPS from "./pages/waiting-rps";
 import { SplashScreenRPS } from "./pages/splash-screen-rps";
 import FightRPS from "./pages/fight";
 
+import IndexPage from "@/pages/index";
+
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route element={<IndexPage />} path="/" />
+        <Route element={<LoginPage />} path="/login" />
         <Route
-          path="/game"
           element={
             <ProtectedRoute>
               <p>Rota protegida</p>
             </ProtectedRoute>
           }
+          path="/game"
         />
-        <Route path="/onboarding" element={<OnboardingFlow />} />
-        <Route path="/signup-rps" element={<LoginRPS />} />
-        <Route path="/home-rps" element={
-          <ProtectedRoute>
-            <HomeRPS />
-          </ProtectedRoute>
-        } />
-        <Route path="/waiting-rps" element={
-          <ProtectedRoute>
-            <WaitingRPS />
-          </ProtectedRoute>
-        } />
-        <Route path="/splash-screen-rps" element={
-          <ProtectedRoute>
-            <SplashScreenRPS />
-          </ProtectedRoute> 
-        } />
-        <Route path="/fight-rps" element={
-          <ProtectedRoute>
-            <FightRPS />
-          </ProtectedRoute> 
-        } />
-
+        <Route element={<OnboardingFlow />} path="/onboarding" />
+        <Route element={<LoginRPS />} path="/signup-rps" />
+        <Route
+          element={
+            <ProtectedRoute>
+              <HomeRPS />
+            </ProtectedRoute>
+          }
+          path="/home-rps"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <WaitingRPS />
+            </ProtectedRoute>
+          }
+          path="/waiting-rps"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <SplashScreenRPS />
+            </ProtectedRoute>
+          }
+          path="/splash-screen-rps"
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <FightRPS />
+            </ProtectedRoute>
+          }
+          path="/fight-rps"
+        />
       </Routes>
     </>
   );

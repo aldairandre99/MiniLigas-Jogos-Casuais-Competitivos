@@ -8,4 +8,3 @@ export interface SoundState {
   toggleSound: () => void;
   setPlaying: (value: boolean) => void;
 }
-

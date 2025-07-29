@@ -2,10 +2,11 @@
 import { useState } from "react";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { useAuthStore } from "@/store/auth-store";
+
 import { useNavigate } from "react-router-dom";
 import { Form } from "@heroui/form";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { useAuthStore } from "@/store/auth-store";
 
 interface Props {
   onSwitch: () => void;
@@ -23,25 +24,24 @@ export const RegisterForm = ({ onSwitch, onClose }: Props) => {
     /* if (!success) return alert("Usuário já existe"); */
 
     const user = useAuthStore.getState().currentUser;
+
     navigate("/");
   };
 
   return (
-    <Form
-      onSubmit={handleSubmit}
-      className="space-y-4">
+    <Form onSubmit={handleSubmit} className="space-y-4">
       <Button
-        variant="light"
+        className="text-gray-500 underline"
         endContent={<XMarkIcon className="size-7" />}
-        onPress={onClose}
-        className="text-gray-500 underline">
-      </Button>
+        variant="light"
+        onPress={onClose}>
+     </Button>
       <h2 className="text-xl font-semibold text-center">Criar Conta</h2>
 
       <Input
+        autoFocus
         required
         errorMessage="Campo obrigatório"
-        autoFocus
         id="username"
         label="Nome de usuário"
         value={username}
@@ -49,9 +49,9 @@ export const RegisterForm = ({ onSwitch, onClose }: Props) => {
       />
 
       <Input
+        autoFocus
         required
         errorMessage="Campo obrigatório"
-        autoFocus
         id="password"
         label="Senha"
         type="password"
@@ -59,15 +59,15 @@ export const RegisterForm = ({ onSwitch, onClose }: Props) => {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <Button type="submit" color="primary" className="w-full">
+      <Button className="w-full" color="primary" type="submit">
         Cadastrar
       </Button>
 
       <div className="flex justify-between items-center text-sm">
-        <button onClick={onSwitch} className="text-blue-600 underline">
+        <button className="text-blue-600 underline" onClick={onSwitch}>
           Já tenho conta
         </button>
-        <button onClick={onClose} className="text-gray-500 underline">
+        <button className="text-gray-500 underline" onClick={onClose}>
           Fechar
         </button>
       </div>

@@ -1,11 +1,9 @@
-import { SignUpScreen } from "@/features/rock-paper-scissors/components/signup"
-
+import { SignUpScreen } from "@/features/rock-paper-scissors/components/signup";
 
 export const LoginRPS = () => {
-   return(
+  return (
     <>
-       <SignUpScreen /> 
+      <SignUpScreen />
     </>
-   ) 
-
-} 
+  );
+};

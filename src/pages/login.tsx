@@ -1,11 +1,14 @@
 // src/pages/LoginPage.tsx
 import { useState } from "react";
 import { Card, CardBody } from "@heroui/card";
+
 import { LoginForm } from "@/features/auth/loginForm";
 import { RegisterForm } from "@/features/auth/signupForm";
 
 export const LoginPage = () => {
-  const [showForm, setShowForm] = useState<"login" | "register" | null>("login");
+  const [showForm, setShowForm] = useState<"login" | "register" | null>(
+    "login",
+  );
 
   const handleClose = () => setShowForm(null);
   const handleSwitch = () =>
@@ -17,9 +20,9 @@ export const LoginPage = () => {
         <Card className="w-full max-w-sm shadow-2xl">
           <CardBody className="p-6">
             {showForm === "login" ? (
-              <LoginForm onSwitch={handleSwitch} onClose={handleClose} />
+              <LoginForm onClose={handleClose} onSwitch={handleSwitch} />
             ) : (
-              <RegisterForm onSwitch={handleSwitch} onClose={handleClose} />
+              <RegisterForm onClose={handleClose} onSwitch={handleSwitch} />
             )}
           </CardBody>
         </Card>
@@ -27,8 +30,8 @@ export const LoginPage = () => {
 
       {!showForm && (
         <button
-          onClick={() => setShowForm("login")}
           className="text-white text-lg underline"
+          onClick={() => setShowForm("login")}
         >
           Fazer Login
         </button>
