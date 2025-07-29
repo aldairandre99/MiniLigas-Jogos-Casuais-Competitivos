@@ -1,10 +1,10 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@heroui/button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { FemaleSvg } from "@/features/rock-paper-scissors/components/FemaleSvg";
 import { MaleHandSvg } from "@/features/rock-paper-scissors/components/MaleHandSvg";
+import { VerticalTimeline } from "./verticalTimeline";
 
 interface Choice {
   name: "Rock" | "Paper" | "Scissor";
@@ -19,7 +19,6 @@ export const Game = () => {
   const [round, setRound] = useState(1);
   const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
   const choices: Choice[] = [
     { name: "Rock", icon: "✊" },
     { name: "Paper", icon: "✋" },
@@ -151,7 +150,7 @@ export const Game = () => {
       <div className="fixed bottom-0">
         <MaleHandSvg choice={playerChoice} />
       </div>
-
+      <VerticalTimeline/>
       {round > 3 && <p className="text-xl mt-4">Game Over! Restarting...</p>}
     </div>
   );
