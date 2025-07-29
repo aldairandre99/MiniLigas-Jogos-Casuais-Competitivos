@@ -1,31 +1,46 @@
 import { useEffect, useState } from "react";
 
-export const VerticalTimeline = () => {
-  const duration = 30; 
+interface VerticalTimelineProps {
+  duration?: number; 
+  onTimeEnd: () => void;
+  resetTrigger?: number; 
+}
+
+export const VerticalTimeline = ({
+  duration = 30,
+  onTimeEnd,
+  resetTrigger,
+}: VerticalTimelineProps) => {
   const [timeLeft, setTimeLeft] = useState(duration);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) return duration; 
-        return prev - 1;
-      });
+    setTimeLeft(duration); // reseta ao mudar o trigger
+  }, [resetTrigger]);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      onTimeEnd();
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(timer);
+  }, [timeLeft]);
 
-  const percent = (timeLeft / duration) * 100;
+  const heightPercentage = (timeLeft / duration) * 100;
 
   return (
-    <div className="flex flex-col items-center gap-2 z-10 absolute left-1/12 top-[30%]">
-      <div className="relative w-2 h-40 bg-neutral-700 rounded overflow-hidden">
+    <div className="fixed top-50 left-[10%] flex flex-col items-center gap-2">
+      <div className="text-white font-semibold text-sm">{`0:${timeLeft.toString().padStart(2, "0")}`}</div>
+      <div className="w-3 h-40 bg-white/30 rounded-full overflow-hidden">
         <div
-          className="absolute bottom-0 left-0 w-full bg-green-500 transition-all duration-1000"
-          style={{ height: `${percent}%` }}
+          className="bg-green-500 w-full transition-all duration-1000"
+          style={{ height: `${heightPercentage}%` }}
         />
       </div>
-      <span className="text-white text-sm font-mono">0:{timeLeft.toString().padStart(2, "0")}</span>
     </div>
   );
 };

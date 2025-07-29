@@ -1,6 +1,6 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@heroui/button";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FemaleSvg } from "@/features/rock-paper-scissors/components/FemaleSvg";
 import { MaleHandSvg } from "@/features/rock-paper-scissors/components/MaleHandSvg";
@@ -24,40 +24,52 @@ export const Game = () => {
     { name: "Paper", icon: "✋" },
     { name: "Scissor", icon: "✌️" },
   ];
+  const [timelineKey, setTimelineKey] = useState(0);
 
   const handleChoice = (choice: Choice["name"]) => {
-    if (round <= 3) {
-      setPlayerChoice(choice);
-      setOpponentChoice(null);
+    if (round > 3) return;
 
+    setPlayerChoice(choice);
+    setOpponentChoice(null);
+
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    }
+
+    const randomChoice = choices[Math.floor(Math.random() * choices.length)].name;
+
+    setTimeout(() => {
+      setOpponentChoice(randomChoice);
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
         audioRef.current.play();
       }
 
-      const randomChoice =
-        choices[Math.floor(Math.random() * choices.length)].name;
-
       setTimeout(() => {
-        setOpponentChoice(randomChoice);
-
-        if (audioRef.current) {
-          audioRef.current.currentTime = 0;
-          audioRef.current.play();
+        if (round === 3) {
+          // Reinicia tudo
+          setPlayerChoice(null);
+          setOpponentChoice(null);
+          setRound(1);
+        } else {
+          setRound((prev) => prev + 1);
         }
-      }, 300);
 
-      setRound((prev) => prev + 1);
-    }
-
-    if (round === 3) {
-      setTimeout(() => {
-        setPlayerChoice(null);
-        setOpponentChoice(null);
-        setRound(1);
-      }, 2000);
-    }
+        // Sempre reinicia a timeline no fim do ciclo
+        setTimelineKey((k) => k + 1);
+      }, 1000);
+    }, 300);
   };
+
+
+  const handleTimelineEnd = () => {
+    if (!playerChoice && round <= 3) {
+      const random = choices[Math.floor(Math.random() * choices.length)].name;
+      handleChoice(random);
+    }
+  }
+
 
   const determineWinner = () => {
     if (!playerChoice || !opponentChoice) return null;
@@ -150,7 +162,13 @@ export const Game = () => {
       <div className="fixed bottom-0">
         <MaleHandSvg choice={playerChoice} />
       </div>
-      <VerticalTimeline/>
+      {round <= 3 && (
+        <VerticalTimeline
+          duration={5}
+          onTimeEnd={handleTimelineEnd}
+          resetTrigger={timelineKey}
+        />
+      )}
       {round > 3 && <p className="text-xl mt-4">Game Over! Restarting...</p>}
     </div>
   );
