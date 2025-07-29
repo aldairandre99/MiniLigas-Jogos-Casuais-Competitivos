@@ -18,33 +18,6 @@ Crie uma plataforma de jogos casuais curtos e interativos onde jogadores possam 
 
 ### 2. 🕹️ Mínimo 1 jogo interativo entre os abaixo:
 
-#### 🚗 Car Racing
-- O jogador controla um carro que deve desviar de obstáculos em uma pista infinita.
-- Utiliza setas do teclado (ou swipe no mobile) para mover lateralmente.
-- A pontuação é baseada na distância percorrida antes de colidir.
-
-🔗 [Design no Figma](https://www.figma.com/design/QSm6Y09UuibyOerIZVWoUt/Car-Racing-%7C-Interactive-Components--Community---Copy-?node-id=11-531&t=VmSFuNESMoq45ccb-1)
-
----
-
-#### 🐦 Flip Bird (Clássico estilo Flappy Bird)
-- Jogador clica ou toca para manter o personagem no ar, desviando de obstáculos verticais.
-- O jogo termina ao colidir com um obstáculo.
-- Pontuação baseada na quantidade de obstáculos superados.
-
-🔗 [Design no Figma](https://www.figma.com/design/s3GpGlc0p0CXcoDWASwZ4j/Flappy-Bird-%7C-Interactive-Components?node-id=0-1&t=JfOJgVADHOReiI2w-1)
-
----
-
-#### 🃏 Uno Game (modo simples)
-- Jogo de cartas em que o jogador enfrenta o computador.
-- Jogabilidade básica: descartar cartas que combinem por cor ou número.
-- Ganha quem terminar as cartas primeiro.
-
-🔗 [Design no Figma](https://www.figma.com/design/Jdx06BmO89eWnpbSm8XGMS/Uno-Game---Design?node-id=1-2&t=iOHicwKkAO6Vaqj9-1)
-
----
-
 #### ✊🖐✌ Pedra, Papel, Tesoura
 - Jogador escolhe entre pedra, papel ou tesoura.
 - Partida rápida contra o computador ou outro jogador.
@@ -93,31 +66,31 @@ Crie uma plataforma de jogos casuais curtos e interativos onde jogadores possam 
 ---
 
 ## 🛠 Tecnologias
+- React.js
+- Typescript
+- Zustand
+- Heroui
 
-### Obrigatórias
-- React.js (Next.js, Vite ou Gatsby)
-- Tailwind CSS (ou outro framework moderno de UI)
 
-### Recomendadas
-- Backend opcional com:
-  - Node.js + Express/NestJS
-  - Firebase Authentication, Realtime ou Firestore (opcional)
-  - Qualquer outro backend que permita ranking ou persistência
+# Como rodar o Projeto
 
----
+Instalar dependencias 
+```
+  npm i 
+```
+Rodar no modo Dev
+```
+  npm run dev
+```
 
-## 📦 Entrega
+Build do app
+```
+  npm run build
+```
 
-- Repositório público (GitHub ou GitLab)
-- README com:
-  - Descrição do projeto
-  - Tecnologias utilizadas
-  - Instruções de instalação e execução
-  - Link para o design base
-- Link de deploy (opcional, mas recomendado)
 
----
+## Features
 
-## 💬 Observação final
+- [x] Authentication & Authorization
+- [x] Pedra Papel Tesoura
 
-> Este projeto não é apenas um teste. É também um campo de criação livre. Demonstre sua personalidade através do código, do design, da forma como pensa o produto. Se quiser transformar esta plataforma num MVP de startup, você já tem um excelente ponto de partida.
