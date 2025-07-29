@@ -10,6 +10,7 @@ interface User {
 }
 
 interface AuthState {
+  isHydrated: boolean;
   users: User[];
   currentUser: User | null;
   login: (username: string, password: string) => boolean;
@@ -20,152 +21,90 @@ interface AuthState {
 }
 
 const dummyUsers: User[] = [
-  {
-    username: "bot_1",
-    password: "123",
-    victories: 25,
-    defeats: 6,
-    type: "user",
-  },
-  {
-    username: "bot_2",
-    password: "123",
-    victories: 40,
-    defeats: 10,
-    type: "user",
-  },
-  {
-    username: "bot_3",
-    password: "123",
-    victories: 30,
-    defeats: 12,
-    type: "user",
-  },
-  {
-    username: "bot_4",
-    password: "123",
-    victories: 35,
-    defeats: 10,
-    type: "user",
-  },
-  {
-    username: "bot_5",
-    password: "123",
-    victories: 27,
-    defeats: 5,
-    type: "user",
-  },
-  {
-    username: "admin",
-    password: "123",
-    victories: 0,
-    defeats: 0,
-    type: "admin",
-  },
+  { username: "bot_1", password: "123", victories: 25, defeats: 6, type: "user" },
+  { username: "bot_2", password: "123", victories: 40, defeats: 10, type: "user" },
+  { username: "bot_3", password: "123", victories: 30, defeats: 12, type: "user" },
+  { username: "bot_4", password: "123", victories: 35, defeats: 10, type: "user" },
+  { username: "bot_5", password: "123", victories: 27, defeats: 5, type: "user" },
+  { username: "admin", password: "123", victories: 0, defeats: 0, type: "admin" },
 ];
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => {
-      const localStorageData = localStorage.getItem("auth-storage");
-      let initialUsers: User[] = [];
+    (set, get) => ({
+      isHydrated: false,
+      users: [],
+      currentUser: null,
 
-      if (localStorageData) {
-        const parsed = JSON.parse(localStorageData);
-
-        initialUsers = parsed.state?.users ?? [];
-      }
-
-      const botsToAdd = dummyUsers.filter(
-        (bot) => !initialUsers.some((u) => u.username === bot.username),
-      );
-
-      const mergedUsers = [...initialUsers, ...botsToAdd];
-
-      return {
-        users: mergedUsers,
-        currentUser: null,
-
-        login: (username, password) => {
-          const user = get().users.find(
-            (u) => u.username === username && u.password === password,
-          );
-
-          if (user) {
-            set({ currentUser: user });
-
-            return true;
-          }
-
-          return false;
-        },
-
-        register: (username, password) => {
-          const exists = get().users.some((u) => u.username === username);
-
-          if (exists) return false;
-
-          const newUser: User = {
-            username,
-            password,
-            victories: 0,
-            defeats: 0,
-            type: "user",
-          };
-
-          set((state) => ({
-            users: [...state.users, newUser],
-            currentUser: newUser,
-          }));
-
+      login: (username, password) => {
+        const user = get().users.find(u => u.username === username && u.password === password);
+        if (user) {
+          set({ currentUser: user });
           return true;
-        },
+        }
+        return false;
+      },
 
-        logout: () => set({ currentUser: null }),
+      register: (username, password) => {
+        const exists = get().users.some(u => u.username === username);
+        if (exists) return false;
 
-        incrementVictory: () => {
-          const user = get().currentUser;
+        const newUser: User = {
+          username,
+          password,
+          victories: 0,
+          defeats: 0,
+          type: "user",
+        };
 
-          if (!user) return;
+        set((state) => ({
+          users: [...state.users, newUser],
+          currentUser: newUser,
+        }));
 
-          const updatedUsers = get().users.map((u) =>
-            u.username === user.username
-              ? { ...u, victories: u.victories + 1 }
-              : u,
-          );
+        return true;
+      },
 
-          const updatedUser = updatedUsers.find(
-            (u) => u.username === user.username,
-          )!;
+      logout: () => set({ currentUser: null }),
 
-          set({
-            users: updatedUsers,
-            currentUser: updatedUser,
-          });
-        },
+      incrementVictory: () => {
+        const user = get().currentUser;
+        if (!user) return;
 
-        incrementDefeat: () => {
-          const user = get().currentUser;
+        const updatedUsers = get().users.map((u) =>
+          u.username === user.username ? { ...u, victories: u.victories + 1 } : u
+        );
+        const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
 
-          if (!user) return;
+        set({ users: updatedUsers, currentUser: updatedUser });
+      },
 
-          const updatedUsers = get().users.map((u) =>
-            u.username === user.username ? { ...u, defeats: u.defeats + 1 } : u,
-          );
+      incrementDefeat: () => {
+        const user = get().currentUser;
+        if (!user) return;
 
-          const updatedUser = updatedUsers.find(
-            (u) => u.username === user.username,
-          )!;
+        const updatedUsers = get().users.map((u) =>
+          u.username === user.username ? { ...u, defeats: u.defeats + 1 } : u
+        );
+        const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
 
-          set({
-            users: updatedUsers,
-            currentUser: updatedUser,
-          });
-        },
-      };
-    },
+        set({ users: updatedUsers, currentUser: updatedUser });
+      },
+    }),
     {
       name: "auth-storage",
-    },
-  ),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          const missingBots = dummyUsers.filter(
+            (bot) => !state.users.some((u) => u.username === bot.username)
+          );
+          if (missingBots.length > 0) {
+            state.users = [...state.users, ...missingBots];
+          }
+
+          state.isHydrated = true;
+        }
+      },
+    }
+  )
 );
