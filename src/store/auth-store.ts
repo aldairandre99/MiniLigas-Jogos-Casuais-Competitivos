@@ -21,11 +21,11 @@ interface AuthState {
 }
 
 export const dummyUsers: User[] = [
-  { username: "bot_1", password: "123", victories: 25, defeats: 6, type: "user" },
-  { username: "bot_2", password: "123", victories: 40, defeats: 10, type: "user" },
-  { username: "bot_3", password: "123", victories: 30, defeats: 12, type: "user" },
-  { username: "bot_4", password: "123", victories: 35, defeats: 10, type: "user" },
-  { username: "bot_5", password: "123", victories: 27, defeats: 5, type: "user" },
+  { username: "bot_1", password: "123", victories: 25, defeats: 6, type: "bot" },
+  { username: "bot_2", password: "123", victories: 40, defeats: 10, type: "bot" },
+  { username: "bot_3", password: "123", victories: 30, defeats: 12, type: "bot" },
+  { username: "bot_4", password: "123", victories: 35, defeats: 10, type: "bot" },
+  { username: "bot_5", password: "123", victories: 27, defeats: 5, type: "bot" },
   { username: "admin", password: "123", victories: 0, defeats: 0, type: "admin" },
 ];
 

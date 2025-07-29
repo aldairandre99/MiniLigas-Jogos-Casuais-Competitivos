@@ -9,7 +9,7 @@ import WaitingRPS from "./pages/waiting-rps";
 import { SplashScreenRPS } from "./pages/splash-screen-rps";
 import FightRPS from "./pages/fight";
 import IndexPage from "@/pages/index";
-import { dummyUsers, useAuthStore, User } from "./store/auth-store";
+import { dummyUsers, useAuthStore } from "./store/auth-store";
 import { useEffect } from "react";
 
 function App() {
