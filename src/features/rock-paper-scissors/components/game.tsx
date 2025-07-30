@@ -21,6 +21,7 @@ export const Game = () => {
   const [round, setRound] = useState(1);
   const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  audioRef.current = new Audio("/sounds/swipe-audio-1.mp3");
   const choices: Choice[] = [
     { name: "Rock" },
     { name: "Paper" },
@@ -100,19 +101,6 @@ export const Game = () => {
 
   return (
     <div className="bg-[#4847C4] h-screen flex flex-col items-center justify-between text-white relative px-4">
-      <audio
-        ref={audioRef}
-        controls
-        preload="auto"
-        src="/sounds/swipe-audio-1.mp3"
-      >
-        <track
-          kind="captions"
-          label="English"
-          src="/captions/swipe-audio-1.vtt"
-          srcLang="en"
-        />
-      </audio>
 
       <div className="flex items-center justify-between w-full">
         <Button
