@@ -16,7 +16,6 @@ interface AuthState {
   register: (username: string, password: string) => boolean;
   logout: () => void;
   incrementVictory: () => void;
-  incrementDefeat: () => void;
   setUsers: (users: User[]) => void;
 }
 
@@ -74,18 +73,6 @@ export const useAuthStore = create<AuthState>()(
 
         const updatedUsers = get().users.map((u) =>
           u.username === user.username ? { ...u, victories: u.victories + 1 } : u
-        );
-        const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
-
-        set({ users: updatedUsers, currentUser: updatedUser });
-      },
-
-      incrementDefeat: () => {
-        const user = get().currentUser;
-        if (!user) return;
-
-        const updatedUsers = get().users.map((u) =>
-          u.username === user.username ? { ...u, defeats: u.defeats + 1 } : u
         );
         const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
 

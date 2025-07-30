@@ -1,14 +1,14 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@heroui/button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FemaleSvg } from "@/features/rock-paper-scissors/components/FemaleSvg";
 import { MaleHandSvg } from "@/features/rock-paper-scissors/components/MaleHandSvg";
 import { VerticalTimeline } from "./verticalTimeline";
+import { useAuthStore } from "@/store/auth-store";
 
 interface Choice {
   name: "Rock" | "Paper" | "Scissor";
-  icon: string;
 }
 
 export const Game = () => {
@@ -20,12 +20,14 @@ export const Game = () => {
   const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const choices: Choice[] = [
-    { name: "Rock", icon: "✊" },
-    { name: "Paper", icon: "✋" },
-    { name: "Scissor", icon: "✌️" },
+    { name: "Rock" },
+    { name: "Paper" },
+    { name: "Scissor" },
   ];
   const [timelineKey, setTimelineKey] = useState(0);
-
+  const [hasScored, setHasScored] = useState(false);
+  const incrementVictory = useAuthStore(i => i.incrementVictory)
+  
   const handleChoice = (choice: Choice["name"]) => {
     if (round > 3) return;
 
@@ -48,7 +50,6 @@ export const Game = () => {
 
       setTimeout(() => {
         if (round === 3) {
-          // Reinicia tudo
           setPlayerChoice(null);
           setOpponentChoice(null);
           setRound(1);
@@ -56,7 +57,7 @@ export const Game = () => {
           setRound((prev) => prev + 1);
         }
 
-        // Sempre reinicia a timeline no fim do ciclo
+
         setTimelineKey((k) => k + 1);
       }, 1000);
     }, 300);
@@ -78,13 +79,21 @@ export const Game = () => {
       (playerChoice === "Rock" && opponentChoice === "Scissor") ||
       (playerChoice === "Paper" && opponentChoice === "Rock") ||
       (playerChoice === "Scissor" && opponentChoice === "Paper")
-    )
+    ) {
       return "You Win!";
-
+    }
     return "Opponent Wins!";
   };
 
   const winner = determineWinner();
+
+  useEffect(() => {
+    const result = determineWinner();
+    if (!hasScored && result === "You Win!") {
+      incrementVictory();
+      setHasScored(true);
+    }
+  }, [playerChoice, opponentChoice]);
 
   return (
     <div className="bg-[#4847C4] h-screen flex flex-col items-center justify-between text-white relative px-4">
