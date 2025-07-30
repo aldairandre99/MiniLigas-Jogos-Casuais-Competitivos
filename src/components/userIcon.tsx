@@ -52,6 +52,9 @@ export const UserIcon = () => {
         ) : (
           <></>
         )}
+        <DropdownItem key="profile" className="h-14 gap-2">
+          <Link to="/home-rps">Pedra Papel Tesoura</Link>
+        </DropdownItem>
         {currentUser?.type === "admin" ? (
           <DropdownItem key="dasboard">
             <Link to="/dashboard">Dashboard</Link>

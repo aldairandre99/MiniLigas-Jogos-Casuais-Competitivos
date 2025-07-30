@@ -18,6 +18,7 @@ import { UserIcon } from "./userIcon";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SoundSwitch } from "@/components/sound-switch";
 import { useAuthStore } from "@/store/auth-store";
+import { PlayIcon } from "@heroicons/react/24/outline";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,9 +77,14 @@ export const Navbar = () => {
               navigate("/splash-screen-rps");
             }}
           >
-            <span className="text-md font-semibold text-xl py-4">
-              Rock Paper Scissors Game
-            </span>
+            <div className="flex items-center justify-between w-full">
+              <div className="text-md font-semibold text-md py-4">
+                PEDRA PAPEL TESOURA
+              </div>
+              <div>
+                <PlayIcon className="size-6"/>
+              </div>
+            </div>
           </Link>
           {currentUser?.type === "admin" ? (
             <Link
@@ -92,8 +98,8 @@ export const Navbar = () => {
                 navigate("/dasboard");
               }}
             >
-              <span className="text-md font-semibold text-xl py-4">
-                Dasboard
+              <span className="text-md font-semibold text-md py-4">
+                DASBOARD
               </span>
             </Link>
           ) : (
