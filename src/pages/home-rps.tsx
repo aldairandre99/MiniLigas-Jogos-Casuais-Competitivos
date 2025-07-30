@@ -1,13 +1,14 @@
-import { HomeIcon, PlayIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, PlayIcon } from "@heroicons/react/24/outline";
+import { Button } from "@heroui/button";
+import { Image } from "@heroui/image";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
 import { Navbar } from "@/features/rock-paper-scissors/components/navbar";
 import { FemaleSvg } from "@/features/rock-paper-scissors/components/svg/female-hand";
 import { FillSvg } from "@/features/rock-paper-scissors/components/svg/fill";
 import { MaleHandSvg } from "@/features/rock-paper-scissors/components/svg/male-hand";
 import { useSoundStore } from "@/store/sound";
-import { Button } from "@heroui/button";
-import { Image } from "@heroui/image";
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 export default function HomeRPS() {
   const isPlaying = useSoundStore((e) => e.isPlaying);
@@ -20,23 +21,23 @@ export default function HomeRPS() {
         <Navbar />
         <main className="container mx-auto max-w-7xl px-6 flex flex-grow flex-col justify-between h-full overflow-x-hidden light:bg-[#F8FAFC]">
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.5, ease: "easeInOut", delay: 0.5 }}
             className="w-full max-w-sm m-auto flex justify-center"
+            exit={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.5, ease: "easeInOut", delay: 0.5 }}
           >
             <Image
-              src="/assets/Logo-Animation-1.png"
               alt="Rock Paper Scissors Logo"
               className="w-48 h-auto"
+              src="/assets/Logo-Animation-1.png"
             />
           </motion.div>
           <div className="relative w-full max-w-sm m-auto h-4/6 flex flex-col justify-center items-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 0.8 }}
             >
               <FillSvg />
@@ -46,15 +47,16 @@ export default function HomeRPS() {
               className="absolute top-20 bottom-0 left-24 z-20"
               exit={{ opacity: 0, scale: 0.8 }}
               initial={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.5, ease: "easeInOut", delay: 1 }}>
+              transition={{ duration: 0.5, ease: "easeInOut", delay: 1 }}
+            >
               <MaleHandSvg />
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.5, ease: "easeInOut", delay: 1.2 }}
               className="absolute top-20 bottom-0 right-24"
+              exit={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.5, ease: "easeInOut", delay: 1.2 }}
             >
               <FemaleSvg />
             </motion.div>
@@ -63,8 +65,9 @@ export default function HomeRPS() {
               className="w-full max-w-sm m-auto"
               exit={{ opacity: 0, scale: 0.8 }}
               initial={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.5, ease: "easeInOut", delay: 1.4 }}>
-              <Button size="lg" className="w-full bg-[#FBC399] text-white">
+              transition={{ duration: 0.5, ease: "easeInOut", delay: 1.4 }}
+            >
+              <Button className="w-full bg-[#FBC399] text-white" size="lg">
                 Começa Encontrando Seu Oponente
               </Button>
             </motion.div>

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 
 import { LoginPage } from "./pages/login";
 import { ProtectedRoute } from "./features/auth/protectRoute";
@@ -8,9 +9,9 @@ import HomeRPS from "./pages/home-rps";
 import WaitingRPS from "./pages/waiting-rps";
 import { SplashScreenRPS } from "./pages/splash-screen-rps";
 import FightRPS from "./pages/fight";
-import IndexPage from "@/pages/index";
 import { dummyUsers, useAuthStore } from "./store/auth-store";
-import { useEffect } from "react";
+
+import IndexPage from "@/pages/index";
 
 function App() {
   const users = useAuthStore((state) => state.users);
@@ -21,6 +22,7 @@ function App() {
       setUsers(dummyUsers);
     }
   }, [users.length, setUsers]);
+
   return (
     <>
       <Routes>

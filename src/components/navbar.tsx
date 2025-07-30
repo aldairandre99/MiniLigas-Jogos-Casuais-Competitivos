@@ -12,13 +12,13 @@ import clsx from "clsx";
 import { Button } from "@heroui/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { PlayIcon } from "@heroicons/react/24/outline";
 
 import { UserIcon } from "./userIcon";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SoundSwitch } from "@/components/sound-switch";
 import { useAuthStore } from "@/store/auth-store";
-import { PlayIcon } from "@heroicons/react/24/outline";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,7 +82,7 @@ export const Navbar = () => {
                 PEDRA PAPEL TESOURA
               </div>
               <div>
-                <PlayIcon className="size-6"/>
+                <PlayIcon className="size-6" />
               </div>
             </div>
           </Link>

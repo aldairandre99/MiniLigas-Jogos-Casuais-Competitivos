@@ -2,9 +2,11 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@heroui/button";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { VerticalTimeline } from "./verticalTimeline";
+
 import { FemaleSvg } from "@/features/rock-paper-scissors/components/FemaleSvg";
 import { MaleHandSvg } from "@/features/rock-paper-scissors/components/MaleHandSvg";
-import { VerticalTimeline } from "./verticalTimeline";
 import { useAuthStore } from "@/store/auth-store";
 
 interface Choice {
@@ -26,8 +28,8 @@ export const Game = () => {
   ];
   const [timelineKey, setTimelineKey] = useState(0);
   const [hasScored, setHasScored] = useState(false);
-  const incrementVictory = useAuthStore(i => i.incrementVictory)
-  
+  const incrementVictory = useAuthStore((i) => i.incrementVictory);
+
   const handleChoice = (choice: Choice["name"]) => {
     if (round > 3) return;
 
@@ -39,7 +41,8 @@ export const Game = () => {
       audioRef.current.play();
     }
 
-    const randomChoice = choices[Math.floor(Math.random() * choices.length)].name;
+    const randomChoice =
+      choices[Math.floor(Math.random() * choices.length)].name;
 
     setTimeout(() => {
       setOpponentChoice(randomChoice);
@@ -57,20 +60,18 @@ export const Game = () => {
           setRound((prev) => prev + 1);
         }
 
-
         setTimelineKey((k) => k + 1);
       }, 1000);
     }, 300);
   };
 
-
   const handleTimelineEnd = () => {
     if (!playerChoice && round <= 3) {
       const random = choices[Math.floor(Math.random() * choices.length)].name;
+
       handleChoice(random);
     }
-  }
-
+  };
 
   const determineWinner = () => {
     if (!playerChoice || !opponentChoice) return null;
@@ -82,6 +83,7 @@ export const Game = () => {
     ) {
       return "You Win!";
     }
+
     return "Opponent Wins!";
   };
 
@@ -89,6 +91,7 @@ export const Game = () => {
 
   useEffect(() => {
     const result = determineWinner();
+
     if (!hasScored && result === "You Win!") {
       incrementVictory();
       setHasScored(true);
@@ -97,7 +100,19 @@ export const Game = () => {
 
   return (
     <div className="bg-[#4847C4] h-screen flex flex-col items-center justify-between text-white relative px-4">
-      <audio ref={audioRef} preload="auto" src="/sounds/swipe-audio-1.mp3" />
+      <audio
+        ref={audioRef}
+        controls
+        preload="auto"
+        src="/sounds/swipe-audio-1.mp3"
+      >
+        <track
+          kind="captions"
+          label="English"
+          src="/captions/swipe-audio-1.vtt"
+          srcLang="en"
+        />
+      </audio>
 
       <div className="flex items-center justify-between w-full">
         <Button
@@ -174,8 +189,8 @@ export const Game = () => {
       {round <= 3 && (
         <VerticalTimeline
           duration={5}
-          onTimeEnd={handleTimelineEnd}
           resetTrigger={timelineKey}
+          onTimeEnd={handleTimelineEnd}
         />
       )}
       {round > 3 && <p className="text-xl mt-4">Game Over! Restarting...</p>}

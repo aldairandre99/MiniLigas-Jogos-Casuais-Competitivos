@@ -87,7 +87,7 @@ export const SignUpScreen = () => {
         initial={{ opacity: 0, scale: 0.8 }}
         transition={{ duration: 0.5, ease: "easeInOut", delay: 1.6 }}
       >
-        Don't have an account?{" "}
+        Não tem uma conta?{" "}
         <Link
           className="text-orange-400 hover:underline font-semibold"
           href="/login"

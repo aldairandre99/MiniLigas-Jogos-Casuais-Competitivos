@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/store/auth-store";
 import { Card, CardBody } from "@heroui/card";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
+
+import { useAuthStore } from "@/store/auth-store";
 
 export const LoginPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -20,6 +21,7 @@ export const LoginPage = () => {
 
     if (!success) {
       alert("Credenciais inválidas ou usuário já existe");
+
       return;
     }
 
@@ -54,25 +56,22 @@ export const LoginPage = () => {
           </div>
 
           <Button
-            variant="solid"
             color="primary"
             size="lg"
-            onPress={handleSubmit}>
+            variant="solid"
+            onPress={handleSubmit}
+          >
             {isRegistering ? "Cadastrar" : "Entrar"}
           </Button>
 
           <div className="flex flex-col">
             <Button
-              variant="flat"
-              size="lg"
-              onPress={() => setIsRegistering(!isRegistering)}
               className=""
+              size="lg"
+              variant="flat"
+              onPress={() => setIsRegistering(!isRegistering)}
             >
-              {
-                isRegistering ?
-                "Entrar" :
-                "Cadastrar"
-              }
+              {isRegistering ? "Entrar" : "Cadastrar"}
             </Button>
           </div>
         </CardBody>

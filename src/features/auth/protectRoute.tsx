@@ -4,7 +4,7 @@ import { useAuthStore } from "@/store/auth-store";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  allowedTypes?: ("admin" | "user" | "bot")[]; 
+  allowedTypes?: ("admin" | "user" | "bot")[];
 }
 
 export const ProtectedRoute = ({
@@ -16,7 +16,7 @@ export const ProtectedRoute = ({
   if (!currentUser) return <Navigate replace to="/login" />;
 
   if (allowedTypes && !allowedTypes.includes(currentUser.type)) {
-    return <Navigate replace to="/unauthorized" />; 
+    return <Navigate replace to="/unauthorized" />;
   }
 
   return <>{children}</>;

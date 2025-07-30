@@ -36,7 +36,6 @@ export const LoginForm = ({ onSwitch, onClose }: Props) => {
       <h2 className="text-xl font-semibold text-center">Entrar</h2>
 
       <Input
-        autoFocus
         required
         errorMessage="Campo obrigatório"
         id="username"

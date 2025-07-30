@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-
 import { useNavigate } from "react-router-dom";
 import { Form } from "@heroui/form";
 import { XMarkIcon } from "@heroicons/react/24/solid";
@@ -22,17 +21,16 @@ export const RegisterForm = ({ onSwitch, onClose }: Props) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="space-y-4">
+    <Form className="space-y-4" onSubmit={handleSubmit}>
       <Button
         className="text-gray-500 underline"
         endContent={<XMarkIcon className="size-7" />}
         variant="light"
-        onPress={onClose}>
-     </Button>
+        onPress={onClose}
+      />
       <h2 className="text-xl font-semibold text-center">Criar Conta</h2>
 
       <Input
-        autoFocus
         required
         errorMessage="Campo obrigatório"
         id="username"
@@ -42,7 +40,6 @@ export const RegisterForm = ({ onSwitch, onClose }: Props) => {
       />
 
       <Input
-        autoFocus
         required
         errorMessage="Campo obrigatório"
         id="password"

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { CharactOneSvg } from "@/features/rock-paper-scissors/components/svg/charact";
@@ -13,7 +13,7 @@ export default function WaitingRPS() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    selectBot()
+    selectBot();
     if (isPlaying) {
       audioRef.current = new Audio("/sounds/waiting-rps-audio-1.mp3");
       audioRef.current.volume = 0.3;
@@ -63,7 +63,9 @@ export default function WaitingRPS() {
               <CharacttwoSvg />
             </div>
             <div className="flex flex-col justify-center text-center gap-y-1">
-              <span className=" text-[#FFCC01]">{`${selectedBot?.username}`}{" "}</span>
+              <span className=" text-[#FFCC01]">
+                {`${selectedBot?.username}`}{" "}
+              </span>
               <p className="text-md text-white">
                 <span className="text-success-500">
                   {`${selectedBot?.victories}`}{" "}

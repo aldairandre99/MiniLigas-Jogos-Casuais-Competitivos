@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 interface VerticalTimelineProps {
-  duration?: number; 
+  duration?: number;
   onTimeEnd: () => void;
-  resetTrigger?: number; 
+  resetTrigger?: number;
 }
 
 export const VerticalTimeline = ({
@@ -20,6 +20,7 @@ export const VerticalTimeline = ({
   useEffect(() => {
     if (timeLeft <= 0) {
       onTimeEnd();
+
       return;
     }
 
