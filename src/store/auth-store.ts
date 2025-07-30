@@ -12,11 +12,13 @@ export interface User {
 interface AuthState {
   users: User[];
   currentUser: User | null;
+  selectedBot: User | null;
   login: (username: string, password: string) => boolean;
   register: (username: string, password: string) => boolean;
   logout: () => void;
   incrementVictory: () => void;
   setUsers: (users: User[]) => void;
+  selectBot: () => void;
 }
 
 export const dummyUsers: User[] = [
@@ -35,6 +37,7 @@ export const useAuthStore = create<AuthState>()(
       currentUser: null,
 
       setUsers: (users) => set({ users }),
+      selectedBot: null,
 
       login: (username, password) => {
         const user = get().users.find((u) => u.username === username && u.password === password);
@@ -77,6 +80,12 @@ export const useAuthStore = create<AuthState>()(
         const updatedUser = updatedUsers.find((u) => u.username === user.username)!;
 
         set({ users: updatedUsers, currentUser: updatedUser });
+      },
+      
+      selectBot: () => {
+        const bots = get().users.filter((u) => u.type === "bot");
+        const randomBot = bots[Math.floor(Math.random() * bots.length)];
+        set({ selectedBot: randomBot });
       },
     }),
     {

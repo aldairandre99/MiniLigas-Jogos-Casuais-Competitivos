@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { CharactOneSvg } from "@/features/rock-paper-scissors/components/svg/charact";
@@ -7,12 +7,13 @@ import { useAuthStore } from "@/store/auth-store";
 import { useSoundStore } from "@/store/sound";
 
 export default function WaitingRPS() {
+  const { currentUser, selectedBot, selectBot } = useAuthStore();
   const isPlaying = useSoundStore((e) => e.isPlaying);
-  const navigate = useNavigate();
-  const currentUser = useAuthStore((e) => e.currentUser);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    selectBot()
     if (isPlaying) {
       audioRef.current = new Audio("/sounds/waiting-rps-audio-1.mp3");
       audioRef.current.volume = 0.3;
@@ -25,6 +26,8 @@ export default function WaitingRPS() {
 
     return () => clearTimeout(timer);
   }, [isPlaying, navigate]);
+
+  if (!currentUser || !selectedBot) return null;
 
   return (
     <>
@@ -46,7 +49,7 @@ export default function WaitingRPS() {
               </p>
               <p className="text-md text-white">
                 <span className="text-danger-500">
-                  {/* {`${currentUser?.defeats}`} */}0{" "}
+                  {`${currentUser?.defeats}`}{" "}
                 </span>
                 Derrotas
               </p>
@@ -60,16 +63,16 @@ export default function WaitingRPS() {
               <CharacttwoSvg />
             </div>
             <div className="flex flex-col justify-center text-center gap-y-1">
-              <span className=" text-[#FFCC01]">Computador</span>
+              <span className=" text-[#FFCC01]">{`${selectedBot?.username}`}{" "}</span>
               <p className="text-md text-white">
                 <span className="text-success-500">
-                  {`${currentUser?.victories}`}{" "}
+                  {`${selectedBot?.victories}`}{" "}
                 </span>
                 Vitorias
               </p>
               <p className="text-md text-white">
                 <span className="text-danger-500">
-                  {/* {`${currentUser?.defeats}`} */}0{" "}
+                  {`${selectedBot?.defeats}`}{" "}
                 </span>
                 Derrotas
               </p>
