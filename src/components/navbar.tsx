@@ -20,7 +20,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { SoundSwitch } from "@/components/sound-switch";
 import { useAuthStore } from "@/store/auth-store";
 
-export const Navbar = () => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const currentUser = useAuthStore((u) => u.currentUser);
   const logout = useAuthStore((e) => e.logout);
@@ -133,3 +133,4 @@ export const Navbar = () => {
     </HeroUINavbar>
   );
 };
+export default Navbar;

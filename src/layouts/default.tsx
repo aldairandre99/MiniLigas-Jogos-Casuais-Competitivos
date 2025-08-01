@@ -1,6 +1,7 @@
 import { Link } from "@heroui/link";
-
-import { Navbar } from "@/components/navbar";
+import { lazy, Suspense } from "react";
+import { NavbarLoader } from "@/components/loadings/navbar";
+const Navbar = lazy(() => import("@/components/navbar"));
 
 export default function DefaultLayout({
   children,
@@ -9,7 +10,9 @@ export default function DefaultLayout({
 }) {
   return (
     <div className="relative flex flex-col h-screen">
-      <Navbar />
+      <Suspense fallback={<NavbarLoader/>}>
+        <Navbar />
+      </Suspense>
       <main className="container mx-auto max-w-7xl px-6 flex-grow">
         {children}
       </main>
