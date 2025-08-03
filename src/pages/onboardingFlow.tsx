@@ -7,28 +7,30 @@ import { useEffect } from "react";
 
 import { useAuthStore } from "@/store/auth-store";
 import { useSoundStore } from "@/store/sound";
-
+import scissorImage from "/assets/onboarding/scissor.png"
+import rockImage from "/assets/onboarding/rock.png"
+import paperImage from "/assets/onboarding/paper.png"
 const steps = [
   {
     key: "scissors",
     title: "Tesoura",
     emojiList: "Ganha do Papel, perde da Pedra",
     highlight: 0,
-    image: "/assets/onboarding/scissor.png",
+    image: scissorImage,
   },
   {
     key: "rock",
     title: "Pedra",
     emojiList: "Ganha da Tesoura, perde do Papel",
     highlight: 1,
-    image: "/assets/onboarding/rock.png",
+    image: rockImage,
   },
   {
     key: "paper",
     title: "Papel",
     emojiList: "Ganha da Pedra, perde da Tesoura",
     highlight: 2,
-    image: "/assets/onboarding/paper.png",
+    image: paperImage,
   },
 ];
 
