@@ -71,17 +71,17 @@ export const Game = () => {
 
       setTimeout(() => {
         if (round === 3) {
-          setPlayerChoice(null);
-          setOpponentChoice(null);
-          setRound(1);
+          setRound(round + 1);
         } else {
           setRound((prev) => prev + 1);
         }
 
         setTimelineKey((k) => k + 1);
+        setPlayerChoice(null);
+        setOpponentChoice(null);
         setHasScored(false);
-      }, 1000);
-    }, 300);
+      }, 2000);
+    }, 1000);
   };
 
   const handleTimelineEnd = () => {
@@ -188,7 +188,7 @@ export const Game = () => {
             variant="light"
             className="p-0"
             disableAnimation={true}
-            isDisabled={round > 3} 
+            isDisabled={round > 3}
             onPress={() => handleChoice("Scissor")}
           >
             <span className="text-white">Tesoura</span>
@@ -201,7 +201,7 @@ export const Game = () => {
             variant="light"
             className="p-0 pb-6"
             disableAnimation={false}
-            disabled={round > 3}
+            isDisabled={round > 3}
             onPress={() =>
               handleChoice(
                 choices[Math.floor(Math.random() * choices.length)].name,
