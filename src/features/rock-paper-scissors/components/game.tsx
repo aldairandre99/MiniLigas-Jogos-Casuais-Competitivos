@@ -29,8 +29,8 @@ export const Game = () => {
   ];
   const [timelineKey, setTimelineKey] = useState(0);
   const [hasScored, setHasScored] = useState(false);
-  const incrementVictory = useAuthStore((i) => i.incrementVictory);
-
+  const { incrementVictory, incrementDefeat} = useAuthStore()
+  
   const handleChoice = (choice: Choice["name"]) => {
     if (round > 3) return;
 
@@ -91,12 +91,11 @@ export const Game = () => {
   const winner = determineWinner();
 
   useEffect(() => {
-    const result = determineWinner();
-
-    if (!hasScored && result === "You Win!") {
+    
+    if (!hasScored && winner === "You Win!") {
       incrementVictory();
       setHasScored(true);
-    }
+    } else if (round >= 3) incrementDefeat();
   }, [playerChoice, opponentChoice]);
 
   return (
