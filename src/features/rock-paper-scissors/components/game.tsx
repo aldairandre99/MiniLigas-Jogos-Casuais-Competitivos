@@ -9,9 +9,19 @@ import { FemaleSvg } from "@/features/rock-paper-scissors/components/FemaleSvg";
 import { MaleHandSvg } from "@/features/rock-paper-scissors/components/MaleHandSvg";
 import { useAuthStore } from "@/store/auth-store";
 
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+} from "@heroui/modal";
+import admPhoto from "/assets/adminPhoto.png";
+import userPhoto from "/assets/userPhoto.png";
+import { Image } from "@heroui/image";
+
 interface Choice {
   name: "Rock" | "Paper" | "Scissor";
 }
+
 
 export const Game = () => {
   const [playerChoice, setPlayerChoice] = useState<Choice["name"] | null>(null);
@@ -21,7 +31,9 @@ export const Game = () => {
   const [round, setRound] = useState(1);
   const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  audioRef.current = new Audio("/sounds/swipe-audio-1.mp3");
+  if (!audioRef.current) {
+    audioRef.current = new Audio(`${import.meta.env.BASE_URL}sounds/swipe-audio-1.mp3`);
+  }
   const choices: Choice[] = [
     { name: "Rock" },
     { name: "Paper" },
@@ -29,13 +41,18 @@ export const Game = () => {
   ];
   const [timelineKey, setTimelineKey] = useState(0);
   const [hasScored, setHasScored] = useState(false);
-  const { incrementVictory, incrementDefeat} = useAuthStore()
-  
-  const handleChoice = (choice: Choice["name"]) => {
-    if (round > 3) return;
+  const { incrementVictory, incrementDefeat, currentUser } = useAuthStore()
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resultMessage, setResultMessage] = useState<string | null>(null);
+  const [areChoicesDisabled, setAreChoicesDisbled] = useState(false);
+  const handleChoice = (choice: Choice["name"]) => {
+    if (round > 3 || areChoicesDisabled) return;
+
+    setAreChoicesDisbled(true)
     setPlayerChoice(choice);
     setOpponentChoice(null);
+    setAreChoicesDisbled(true)
 
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -62,6 +79,7 @@ export const Game = () => {
         }
 
         setTimelineKey((k) => k + 1);
+        setHasScored(false);
       }, 1000);
     }, 300);
   };
@@ -91,12 +109,35 @@ export const Game = () => {
   const winner = determineWinner();
 
   useEffect(() => {
-    
-    if (!hasScored && winner === "You Win!") {
-      incrementVictory();
+    if (!hasScored && winner && playerChoice && opponentChoice && areChoicesDisabled) {
       setHasScored(true);
-    } else if (round >= 3) incrementDefeat();
+
+      const showModalTimeout = setTimeout(() => {
+        if (winner === "You Win!") {
+          incrementVictory();
+          setResultMessage("Você venceu! 🎉");
+        } else if (winner === "Opponent Wins!") {
+          incrementDefeat();
+          setResultMessage("Você perdeu! 😢");
+        } else {
+          setResultMessage("Empate! 🤝");
+        }
+
+        setIsModalOpen(true);
+        setTimelineKey(0)
+        setAreChoicesDisbled(false)
+
+        const closeModalTimeout = setTimeout(() => {
+          setIsModalOpen(false);
+        }, 1000);
+
+        return () => clearTimeout(closeModalTimeout);
+      }, 1000);
+
+      return () => clearTimeout(showModalTimeout);
+    }
   }, [playerChoice, opponentChoice]);
+
 
   return (
     <div className="bg-[#4847C4] h-screen flex flex-col items-center justify-between text-white relative px-4">
@@ -114,46 +155,52 @@ export const Game = () => {
         <h1 className="text-2xl font-bold">Round {round}</h1>
       </div>
 
-      {winner && <p className="text-xl mt-4">{winner}</p>}
-
-      <div className="grid grid-cols-3 grid-rows-3 justify-center fixed -bottom-10 z-10">
+      <div className="grid grid-cols-3 grid-rows-3 justify-center fixed -bottom-10 z-10 place-items-center">
         <div />
-        <div className="w-full flex justify-center">
+        <div className="flex items-center rounded-full justify-center w-[60px] h-[60px] bg-blue-700 hover:bg-blue-600 transition">
           <Button
-            className="bg-blue-700 rounded-full hover:bg-blue-600 transition w-[80px] h-[80px]"
-            disabled={round > 3}
+            variant="light"
+            className="p-0"
+            disableAnimation={true}
+            isDisabled={round > 3}
             onPress={() => handleChoice("Rock")}
           >
-            <span className="text-white text-xl">Rock</span>
+            <span className="text-white">Pedra</span>
           </Button>
         </div>
         <div />
 
-        <div className="w-full flex justify-center">
+        <div className="flex items-center rounded-full justify-center w-[60px] h-[60px] bg-blue-700 hover:bg-blue-600 transition">
           <Button
-            className="bg-blue-700 rounded-full hover:bg-blue-600 transition w-[80px] h-[80px]"
-            disabled={round > 3}
+            variant="light"
+            className="p-0"
+            disableAnimation={true}
+            isDisabled={round > 3}
             onPress={() => handleChoice("Paper")}
           >
-            <span className="text-white text-2xl">Paper</span>
+            <span className="text-white">Papel</span>
           </Button>
         </div>
         <div />
 
-        <div className="w-full flex justify-center">
+        <div className="flex items-center rounded-full justify-center w-[60px] h-[60px] bg-blue-700 hover:bg-blue-600 transition">
           <Button
-            className="bg-blue-700 rounded-full hover:bg-blue-600 transition w-[80px] h-[80px]"
-            disabled={round > 3}
+            variant="light"
+            className="p-0"
+            disableAnimation={true}
+            isDisabled={round > 3} 
             onPress={() => handleChoice("Scissor")}
           >
-            <span className="text-white text-2xl">Scissor</span>
+            <span className="text-white">Tesoura</span>
           </Button>
         </div>
         <div />
 
-        <div className="w-full flex justify-center">
+        <div className="flex items-center rounded-full justify-center w-[80px] h-[80px] bg-blue-700 hover:bg-blue-600 transition">
           <Button
-            className="bg-blue-700 rounded-full hover:bg-blue-600 transition w-[100px] h-[100px]"
+            variant="light"
+            className="p-0 pb-6"
+            disableAnimation={false}
             disabled={round > 3}
             onPress={() =>
               handleChoice(
@@ -161,7 +208,7 @@ export const Game = () => {
               )
             }
           >
-            <span className="text-white text-2xl">Random</span>
+            <span className="text-white ">Random</span>
           </Button>
         </div>
         <div />
@@ -180,7 +227,19 @@ export const Game = () => {
           onTimeEnd={handleTimelineEnd}
         />
       )}
-      {round > 3 && <p className="text-xl mt-4">Game Over! Restarting...</p>}
+
+      <Modal isOpen={isModalOpen} onOpenChange={setIsModalOpen} hideCloseButton >
+        <ModalContent className="max-w-[312px] h-[411px] my-auto">
+          {() => (
+            <>
+              <ModalBody className="flex flex-col gap-y-4 items-center justify-center">
+                <h1 className="text-2xl font-bold">{resultMessage}</h1>
+                <Image src={`${currentUser?.type === "admin" ? admPhoto : userPhoto} `} />
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
