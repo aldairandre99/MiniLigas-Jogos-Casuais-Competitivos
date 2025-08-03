@@ -17,7 +17,7 @@ export const SplashScreen = () => {
   const navigate = useNavigate();
   const handleStart = () => {
     if (isPlaying) {
-      audioRef.current = new Audio("/public/sounds/splash-audio-1.mp3");
+      audioRef.current = new Audio("/sounds/splash-audio-1.mp3");
       audioRef.current.volume = 0.1;
       audioRef.current.play();
     }

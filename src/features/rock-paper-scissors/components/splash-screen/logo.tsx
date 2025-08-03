@@ -1,6 +1,6 @@
 import { Image } from "@heroui/image";
 
-import logo from "/public/assets/Logo-Animation-1.png";
+import logo from "/assets/Logo-Animation-1.png";
 export const Logo = () => {
   return (
     <>

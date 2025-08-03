@@ -24,7 +24,7 @@ export const FemaleSvg = ({ choice }: FemaleSvgProps) => {
         <Image
           alt="Rock"
           className=""
-          src="assets/fight/female-rock.png"
+          src="/assets/fight/female-rock.png"
           width={140}
         />
       )}
@@ -32,14 +32,14 @@ export const FemaleSvg = ({ choice }: FemaleSvgProps) => {
         <Image
           alt="Paper"
           className="rotate-180"
-          src="assets/fight/male-paper.png"
+          src="/assets/fight/male-paper.png"
           width={140}
         />
       )}
       {choice === "Scissor" && (
         <Image
           alt="Scissor"
-          src="assets/fight/female-scissor.png"
+          src="/assets/fight/female-scissor.png"
           width={140}
         />
       )}

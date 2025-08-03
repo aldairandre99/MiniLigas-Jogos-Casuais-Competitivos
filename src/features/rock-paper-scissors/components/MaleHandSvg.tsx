@@ -23,15 +23,15 @@ export const MaleHandSvg = ({ choice }: MaleHandSvgProps) => {
         <Image
           alt="Rock"
           className=""
-          src="assets/fight/male-rock.png"
+          src="/assets/fight/male-rock.png"
           width={140}
         />
       )}
       {choice === "Paper" && (
-        <Image alt="Paper" src="assets/fight/male-paper.png" width={140} />
+        <Image alt="Paper" src="/assets/fight/male-paper.png" width={140} />
       )}
       {choice === "Scissor" && (
-        <Image alt="Scissor" src="assets/fight/male-scissor.png" width={140} />
+        <Image alt="Scissor" src="/assets/fight/male-scissor.png" width={140} />
       )}
     </motion.div>
   );

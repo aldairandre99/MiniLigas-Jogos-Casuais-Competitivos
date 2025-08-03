@@ -12,23 +12,23 @@ const steps = [
   {
     key: "scissors",
     title: "Tesoura",
-    emojiList: ["✌️", "✊", "🖐️"],
+    emojiList: "Ganha do Papel, perde da Pedra",
     highlight: 0,
-    image: "/assets/Group-4.png",
+    image: "/assets/onboarding/scissor.png",
   },
   {
     key: "rock",
     title: "Pedra",
-    emojiList: ["✌️", "✊", "🖐️"],
+    emojiList: "Ganha da Tesoura, perde do Papel",
     highlight: 1,
-    image: "/assets/Group-2.png",
+    image: "/assets/onboarding/rock.png",
   },
   {
     key: "paper",
     title: "Papel",
-    emojiList: ["✌️", "✊", "🖐️"],
+    emojiList: "Ganha da Pedra, perde da Tesoura",
     highlight: 2,
-    image: "/assets/Group-6.png",
+    image: "/assets/onboarding/paper.png",
   },
 ];
 
@@ -95,21 +95,14 @@ export default function OnboardingFlow() {
                 width={160}
               />
             </motion.div>
-
-            <div className="flex justify-center gap-6">
-              {current.emojiList.map((emoji, index) => (
-                <span
-                  key={index}
-                  className={`${index === current.highlight ? "text-yellow-400 text-3xl" : "text-white text-2xl"}`}
-                >
-                  {emoji}
-                </span>
-              ))}
-            </div>
-
+           
             <h1 className="dark:text-white text-4xl font-bold">
               {current.title}
             </h1>
+
+            <div className="flex justify-center gap-6">
+              {current.emojiList}
+            </div>
 
             <div className="flex gap-x-2">
               {(stepIndex === 1 || stepIndex === 2) && (

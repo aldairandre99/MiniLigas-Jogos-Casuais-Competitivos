@@ -6,7 +6,8 @@ import {
 } from "@heroui/dropdown";
 import { User } from "@heroui/user";
 import { Link, useNavigate } from "react-router-dom";
-
+import admPhoto from "/assets/adminPhoto.png";
+import userPhoto from "/assets/userPhoto.png";
 import { useAuthStore } from "@/store/auth-store";
 
 export const UserIcon = () => {
@@ -27,13 +28,14 @@ export const UserIcon = () => {
     <Dropdown placement="bottom-start">
       <DropdownTrigger>
         <User
+
           as="button"
           avatarProps={{
             isBordered: true,
             src:
               currentUser?.type === "admin"
-                ? "/assets/adminPhoto.png"
-                : "/assets/userPhoto.png",
+                ? admPhoto
+                : userPhoto,
           }}
           className="transition-transform"
           description={`${currentUser?.username || "Guest"}`}
@@ -53,7 +55,7 @@ export const UserIcon = () => {
           <></>
         )}
         <DropdownItem key="rps" className="h-14 gap-2">
-          <Link to="/home-rps">Pedra Papel Tesoura</Link>
+          <Link to="/onboarding">Pedra Papel Tesoura</Link>
         </DropdownItem>
         {currentUser?.type === "admin" ? (
           <DropdownItem key="dasboard">
