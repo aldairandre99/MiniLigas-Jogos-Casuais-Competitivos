@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { Button } from "@heroui/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { PlayIcon } from "@heroicons/react/24/outline";
+import { HomeIcon, PlayIcon } from "@heroicons/react/24/outline";
 
 import { UserIcon } from "./userIcon";
 
@@ -65,6 +65,28 @@ const Navbar = () => {
 
       <NavbarMenu className="flex justify-between">
         <NavbarItem>
+          <Link
+            className={clsx(
+              linkStyles({ color: "foreground" }),
+              "data-[active=true]:text-primary data-[active=true]:font-medium",
+              "flex justify-between items-center",
+            )}
+            color="foreground"
+            href="/"
+            onPress={() => {
+              navigate("/");
+              setIsMenuOpen(!isMenuOpen);
+            }}
+          >
+            <div className="flex items-center justify-between w-full">
+              <div className="text-md font-semibold text-md py-4">
+                Pagina Inicial
+              </div>
+              <div>
+                <HomeIcon className="size-6" />
+              </div>
+            </div>
+          </Link>
           <Link
             className={clsx(
               linkStyles({ color: "foreground" }),
