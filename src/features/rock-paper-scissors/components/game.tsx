@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, ArrowRightIcon, ChevronLeftIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
 import { Button } from "@heroui/button";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ import {
 import admPhoto from "/assets/adminPhoto.png";
 import userPhoto from "/assets/userPhoto.png";
 import { Image } from "@heroui/image";
+import { HomeIcon } from "@heroicons/react/24/solid";
 
 const CHOICES = ["Rock", "Paper", "Scissor"] as const;
 const MAX_ROUNDS = 3;
@@ -32,7 +33,7 @@ export const Game = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [resultMessage, setResultMessage] = useState<string | null>(null);
   const [areChoicesDisabled, setAreChoicesDisabled] = useState(false);
-
+  const [endGame, setEndGame] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(new Audio(`${import.meta.env.BASE_URL}sounds/swipe-audio-1.mp3`));
   const navigate = useNavigate();
   const { incrementVictory, incrementDefeat, currentUser } = useAuthStore();
@@ -108,15 +109,26 @@ export const Game = () => {
             setResultMessage("Empate! 🤝");
         }
 
-        setIsModalOpen(true);
-        setTimelineKey(0);
-        setAreChoicesDisabled(false);
-
-        const closeModalTimeout = setTimeout(() => setIsModalOpen(false), 1000);
-        return () => clearTimeout(closeModalTimeout);
+        if (round < MAX_ROUNDS) {
+          // Modal temporário para os primeiros 2 rounds
+          setIsModalOpen(true);
+          const closeModalTimeout = setTimeout(() => {
+            setIsModalOpen(false);
+            setTimelineKey(0);
+            setAreChoicesDisabled(false);
+          }, 2000);
+          return () => clearTimeout(closeModalTimeout);
+        } else {
+          // Modal final no round 3
+          setTimeout(() => {
+            setEndGame(true);
+            setAreChoicesDisabled(false);
+          }, 1000);
+        }
       }, 1000);
 
       return () => clearTimeout(showModalTimeout);
+
     }
   }, [playerChoice, opponentChoice]);
 
@@ -196,6 +208,73 @@ export const Game = () => {
           )}
         </ModalContent>
       </Modal>
+
+
+
+
+      <Modal isOpen={endGame} size="md" className="text-center">
+        <ModalContent>
+          <ModalBody className="py-8 flex flex-col items-center gap-6">
+            <div className="relative">
+              <div className="w-28 h-28 rounded-full bg-[#2F296D] flex items-center justify-center mx-auto">
+                <Image
+                  src={userPhoto}
+                  alt="Avatar"
+                  className="w-16 h-16"
+                />
+              </div>
+              <div className="absolute -left-12 top-1/2 -translate-y-1/2">
+                <span className="bg-purple-500 text-white text-xs px-3 py-1 rounded-full">+1 💎</span>
+              </div>
+              <div className="absolute -right-12 top-1/2 -translate-y-1/2">
+                <span className="bg-yellow-400 text-white text-xs px-3 py-1 rounded-full">+1 🟡</span>
+              </div>
+            </div>
+
+            {/* Resultado */}
+            <div>
+              <p className="text-orange-500 text-sm font-medium">You Win</p>
+              <p className="text-3xl font-bold mt-1">1 - 3</p>
+            </div>
+
+            {/* Botões de ação */}
+            <div className="flex items-center justify-center gap-4">
+              <Button
+                variant="light"
+                isIconOnly
+                className="bg-[#FDCDBD] text-[#B76447] rounded-xl px-4 py-3 shadow-md"
+                onPress={() => { }}
+              >
+                <HomeIcon className="w-6 h-6" />
+              </Button>
+              <Button
+                variant="light"
+                isIconOnly
+                className="bg-[#FDCDBD] text-[#B76447] rounded-xl px-4 py-3 shadow-md"
+              >
+                <ArrowPathIcon className="w-6 h-6" />
+              </Button>
+              <Button
+                variant="light"
+                isIconOnly
+                className="bg-[#FDCDBD] text-[#B76447] rounded-xl px-4 py-3 shadow-md"
+              >
+                <ArrowRightIcon className="w-6 h-6" />
+              </Button>
+            </div>
+
+            {/* Boost */}
+            <Button
+              variant="light"
+              className="mt-4 bg-[#FDCDBD] text-[#B76447] rounded-xl px-6 py-3 shadow-md flex items-center gap-2"
+            >
+              2X BOOST <PlayCircleIcon className="w-5 h-5" />
+            </Button>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+
     </div>
   );
 };
