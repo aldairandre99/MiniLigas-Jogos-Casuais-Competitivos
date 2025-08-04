@@ -5,6 +5,7 @@ import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 
 import { useAuthStore } from "@/store/auth-store";
+import { addToast } from "@heroui/toast";
 
 export const LoginPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -20,11 +21,25 @@ export const LoginPage = () => {
       : login(username, password);
 
     if (!success) {
-      alert("Credenciais inválidas ou usuário já existe");
-
+      addToast({
+        title: isRegistering ? "Registro falhou" : "Login falhou",
+        description: isRegistering
+          ? "Este nome de usuário já está em uso."
+          : "Usuário ou senha incorretos.",
+        variant: "flat",
+        color: "warning"
+      });
       return;
     }
 
+    addToast({
+      title: isRegistering ? "Conta criada com sucesso!" : "Login realizado!",
+      description: isRegistering
+        ? "Você já pode jogar 🎮"
+        : "Bem-vindo de volta!",
+      variant: "flat",
+      color: "warning"
+    });
     navigate("/");
   };
 
