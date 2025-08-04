@@ -1,6 +1,8 @@
 import { Image } from "@heroui/image";
 import { motion } from "framer-motion";
-
+import rockImage from "/assets/fight/female-rock.png"
+import paperImage from "/assets/fight/male-paper.png"
+import scissorImage from "/assets/fight/female-scissor.png"
 interface FemaleSvgProps {
   choice: "Rock" | "Paper" | "Scissor" | null;
 }
@@ -8,7 +10,7 @@ interface FemaleSvgProps {
 export const FemaleSvg = ({ choice }: FemaleSvgProps) => {
   return (
     <motion.div
-      key={choice} // força re-render quando muda a escolha
+      key={choice} 
       animate={{ x: 0, opacity: 1 }}
       className="text-8xl"
       initial={{ x: -200, opacity: 0 }}
@@ -23,8 +25,7 @@ export const FemaleSvg = ({ choice }: FemaleSvgProps) => {
       {choice === "Rock" && (
         <Image
           alt="Rock"
-          className=""
-          src="/assets/fight/female-rock.png"
+          src={rockImage}
           width={140}
         />
       )}
@@ -32,14 +33,14 @@ export const FemaleSvg = ({ choice }: FemaleSvgProps) => {
         <Image
           alt="Paper"
           className="rotate-180"
-          src="/assets/fight/male-paper.png"
+          src={paperImage}
           width={140}
         />
       )}
       {choice === "Scissor" && (
         <Image
           alt="Scissor"
-          src="/assets/fight/female-scissor.png"
+          src={scissorImage}
           width={140}
         />
       )}
