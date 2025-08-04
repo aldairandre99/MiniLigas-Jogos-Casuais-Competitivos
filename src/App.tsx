@@ -10,6 +10,7 @@ import { SplashScreenRPS } from "./pages/splash-screen-rps";
 import FightRPS from "./pages/fight";
 import { dummyUsers, useAuthStore } from "./store/auth-store";
 import { OnboardingLoader } from "./components/loadings/onboardingflowLoader";
+import Dashboard from "./pages/dashboard";
 
 const IndexPage = lazy(() => import("@/pages/index"));
 const Onboarding = lazy(() => import("@/pages/onboardingFlow"));
@@ -33,10 +34,10 @@ function App() {
           <Route
             element={
               <ProtectedRoute>
-                <p>Rota protegida</p>
+                <Dashboard />
               </ProtectedRoute>
             }
-            path="/game"
+            path="/dashboard"
           />
           <Route element={
             <Suspense fallback={<OnboardingLoader/>}>
