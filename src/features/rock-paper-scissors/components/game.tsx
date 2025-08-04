@@ -89,6 +89,17 @@ export const Game = () => {
     }
   };
 
+  const resetGame = () => {
+    setPlayerChoice(null);
+    setOpponentChoice(null);
+    setRound(1);
+    setTimelineKey(0);
+    setHasScored(false);
+    setIsModalOpen(false);
+    setEndGame(false);
+    setAreChoicesDisabled(false);
+  };
+
   const winner = determineWinner();
 
   useEffect(() => {
@@ -209,16 +220,13 @@ export const Game = () => {
         </ModalContent>
       </Modal>
 
-
-
-
       <Modal isOpen={endGame} size="md" className="text-center">
         <ModalContent>
           <ModalBody className="py-8 flex flex-col items-center gap-6">
             <div className="relative">
               <div className="w-28 h-28 rounded-full bg-[#2F296D] flex items-center justify-center mx-auto">
                 <Image
-                  src={userPhoto}
+                  src={currentUser?.type === "admin" ? admPhoto : userPhoto}
                   alt="Avatar"
                   className="w-16 h-16"
                 />
@@ -231,39 +239,38 @@ export const Game = () => {
               </div>
             </div>
 
-            {/* Resultado */}
             <div>
               <p className="text-orange-500 text-sm font-medium">You Win</p>
               <p className="text-3xl font-bold mt-1">1 - 3</p>
             </div>
 
-            {/* Botões de ação */}
             <div className="flex items-center justify-center gap-4">
               <Button
                 variant="light"
                 isIconOnly
-                className="bg-[#FDCDBD] text-[#B76447] rounded-xl px-4 py-3 shadow-md"
-                onPress={() => { }}
+                className="bg-[#FDCDBD] text-[#B76447] rounded-xl shadow-md"
+                onPress={() => navigate("/")}
               >
-                <HomeIcon className="w-6 h-6" />
+                <HomeIcon className="size-6" />
               </Button>
               <Button
                 variant="light"
                 isIconOnly
-                className="bg-[#FDCDBD] text-[#B76447] rounded-xl px-4 py-3 shadow-md"
+                className="bg-[#FDCDBD] text-[#B76447] rounded-xl shadow-md"
+                onPress={resetGame}
               >
-                <ArrowPathIcon className="w-6 h-6" />
+                <ArrowPathIcon className="size-6" />
               </Button>
               <Button
                 variant="light"
                 isIconOnly
-                className="bg-[#FDCDBD] text-[#B76447] rounded-xl px-4 py-3 shadow-md"
+                className="bg-[#FDCDBD] text-[#B76447] rounded-xl shadow-md"
+                onPress={() => navigate("/")}
               >
-                <ArrowRightIcon className="w-6 h-6" />
+                <ArrowRightIcon className="size-6" />
               </Button>
             </div>
 
-            {/* Boost */}
             <Button
               variant="light"
               className="mt-4 bg-[#FDCDBD] text-[#B76447] rounded-xl px-6 py-3 shadow-md flex items-center gap-2"
